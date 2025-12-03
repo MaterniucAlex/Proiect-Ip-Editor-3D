@@ -2,7 +2,8 @@
 #ifndef MATRIX_MATH
 #define MATRIX_MATH
 
-#include "utils.c"
+#define _USE_MATH_DEFINES
+
 #include <math.h>
 #include <stdio.h>
 
@@ -202,7 +203,7 @@ void initProjectionMatrix(mat4 mat, float FOV, float AspectRatio, float near, fl
   mat[2 * 4 + 3] = B;
   mat[3 * 4 + 2] = 1;
 
-  float f = 1 / tanf(degreesToRadians(FOV / 2.0f));
+  float f = 1 / tanf((FOV / 2.0f) * (M_PI / 180));
 
   mat[0 * 4 + 0] = f / AspectRatio;
   mat[1 * 4 + 1] = f;
@@ -215,10 +216,6 @@ void initLookAtMatrix(mat4 mat, vec4 position, vec4 target, vec4 upVector)
   copyFromVec(cameraDirection, target);
   subVecFromVec(cameraDirection, position);
   normalizeVector(cameraDirection);
-
-  // for(int i = 0; i < 4; i++)
-  //   printf("%f ", cameraDirection[i]);
-  // printf("\n");
 
   vec4 cameraRight;
   vec4 multVec;
