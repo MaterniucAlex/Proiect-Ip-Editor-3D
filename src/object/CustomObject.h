@@ -3,13 +3,8 @@
 #define RENDER_OBJECT
 
 typedef struct point {
-	float x;
-	float y;
-	float z;
-	float r;
-	float g;
-	float b;
-	int indicee;
+	float coords[4];
+	unsigned char color[4];
 } point;
 
 typedef struct object {
