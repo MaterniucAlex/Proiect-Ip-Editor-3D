@@ -1,4 +1,5 @@
 #pragma once
+#include "extra/matrixMath.h"
 #include "object/CustomObject.h"
 #ifndef VARS
 #define VARS
@@ -20,6 +21,10 @@ typedef struct Screen
 	unsigned char b;
 } Screen;
 Screen *screen;
+
+vec4 cameraPosition = {0.f, 0.f, -1.f};
+vec4 cameraTarget   = {0.f, 0.f, 0.f};
+vec4 cameraUp 	    = {0.f, 1.f, 0.f};
 
 SDL_Event event;
 bool isRunning = true;

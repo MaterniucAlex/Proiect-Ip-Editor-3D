@@ -27,13 +27,19 @@ void render()
 void renderObject(object *object, SDL_Renderer *renderer)
 {
 	mat4 transformMat;
+	mat4 calcMat;
 	initScalingMatrix(transformMat, 1, 1, 1);
 
-	mat4 calcMat;
-	initRotationalMatrix(calcMat, 0.f, SDL_GetTicks() / 500.0f, 0.f);
+	//initRotationalMatrix(calcMat, 0.f, SDL_GetTicks() / 500.0f, 0.f);
+	//multMatByLeftMat(transformMat, calcMat);
+
+	//initTranslationalMatrix(calcMat, 0.5, -0.5, 0);
+	//multMatByLeftMat(transformMat, calcMat);
+
+	initLookAtMatrix(calcMat, cameraPosition, cameraTarget, cameraUp);
 	multMatByLeftMat(transformMat, calcMat);
 
-	initTranslationalMatrix(calcMat, 0.5, -0.5, 0);
+	initProjectionMatrix(calcMat, 90, (float)SCREEN_W / SCREEN_H, 0.1f, 10.f);
 	multMatByLeftMat(transformMat, calcMat);
 	
 	for (int i = 0; i < object->nextPointId; i+=3)
