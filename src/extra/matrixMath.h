@@ -191,6 +191,7 @@ void initTranslationalMatrix(mat4 mat, float x, float y, float z)
   mat[0 * 4 + 3] = x;
   mat[1 * 4 + 3] = y;
   mat[2 * 4 + 3] = z;
+  mat[3 * 4 + 3] = 1.0f;
 }
 
 

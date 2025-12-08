@@ -11,6 +11,16 @@ const int FPS = 60;
 
 SDL_Window   *window;
 SDL_Renderer *renderer;
+
+float *depthBuffer;
+typedef struct Screen 
+{
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+} Screen;
+Screen *screen;
+
 SDL_Event event;
 bool isRunning = true;
 
