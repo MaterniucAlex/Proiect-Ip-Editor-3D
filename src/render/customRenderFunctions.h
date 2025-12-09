@@ -41,10 +41,12 @@ void drawScanline(int y, point p1, point p2)
             int index = x + y * SCREEN_W;
             
             if (curZ < depthBuffer[index]) {
-                screen[index].r = (unsigned char)curR;
-                screen[index].g = (unsigned char)curG;
-                screen[index].b = (unsigned char)curB;
-                depthBuffer[index] = curZ;
+		    Uint32 color = (255 << 24) | 
+			    ((unsigned char)curR << 16) | 
+			    ((unsigned char)curG << 8) | 
+			    ((unsigned char)curB);
+		    pixels[index] = color; // Single memory write!
+		    depthBuffer[index] = curZ;
             }
         }
         
@@ -80,9 +82,9 @@ void drawLineCustom(point p1, point p2)
     float yStep = yDist / totalDistance;
     float zStep = zDist / totalDistance;
 
-    float rStep = (p2.color[0] - p1.color[0]) / totalDistance;
-    float gStep = (p2.color[1] - p1.color[1]) / totalDistance;
-    float bStep = (p2.color[2] - p1.color[2]) / totalDistance;
+    //float rStep = (p2.color[0] - p1.color[0]) / totalDistance;
+    //float gStep = (p2.color[1] - p1.color[1]) / totalDistance;
+    //float bStep = (p2.color[2] - p1.color[2]) / totalDistance;
 
     for(int i = 0; i < (int)(totalDistance + 0.5f); i++)
     {
@@ -98,9 +100,9 @@ void drawLineCustom(point p1, point p2)
 
         if (curZ < depthBuffer[index]) 
         {
-            screen[index].r = p1.color[0] + i * rStep;
-            screen[index].g = p1.color[1] + i * gStep;
-            screen[index].b = p1.color[2] + i * bStep;
+            //screen[index].r = p1.color[0] + i * rStep;
+            //screen[index].g = p1.color[1] + i * gStep;
+            //screen[index].b = p1.color[2] + i * bStep;
             
             depthBuffer[index] = curZ;
         }
@@ -135,9 +137,6 @@ void fill_flat_bottom_triangle(point v1, point v2, point v3) {
 	rightPoint.color[0] = v1.color[0] + (v3.color[0] - v1.color[0]) * rightProgress;
 	rightPoint.color[1] = v1.color[1] + (v3.color[1] - v1.color[1]) * rightProgress;
 	rightPoint.color[2] = v1.color[2] + (v3.color[2] - v1.color[2]) * rightProgress;
-
-	leftPoint.coords[1] = scanline_y;
-	rightPoint.coords[1] = scanline_y;
         
         //drawLineCustom(leftPoint, rightPoint);
 	drawScanline(scanline_y, leftPoint, rightPoint);
@@ -174,9 +173,6 @@ void fill_flat_top_triangle(point v1, point v2, point v3) {
 	rightPoint.color[1] = v2.color[1] + (v3.color[1] - v2.color[1]) * rightProgress;
 	rightPoint.color[2] = v2.color[2] + (v3.color[2] - v2.color[2]) * rightProgress;
         
-	leftPoint.coords[1] = scanline_y;
-	rightPoint.coords[1] = scanline_y;
-
         //drawLineCustom(leftPoint, rightPoint);
 	drawScanline(scanline_y, leftPoint, rightPoint);
 
@@ -218,19 +214,10 @@ void draw_filled_triangle(point v1, point v2, point v3) {
 void renderCustomScreen()
 {
 	for(int x = 0; x < SCREEN_W; x++)
-	{
 		for (int y = 0; y < SCREEN_H; y++)
-		{
-			Screen s = screen[x + y * SCREEN_W];
-			SDL_SetRenderDrawColor(renderer, s.r, s.g, s.b, 255);
-			SDL_RenderPoint(renderer, x, y);
-
-			screen[x + y * SCREEN_W].r = 0;
-			screen[x + y * SCREEN_W].g = 0;
-			screen[x + y * SCREEN_W].b = 0;
 			depthBuffer[x + y * SCREEN_W] = 99999;
-		}
-	}
+	SDL_UpdateTexture(frameBufferTexture, NULL, pixels, SCREEN_W * sizeof(Uint32));
+	SDL_RenderTexture(renderer, frameBufferTexture, NULL, NULL);
 }
 
 #endif

@@ -15,19 +15,14 @@ SDL_Window   *window;
 SDL_Renderer *renderer;
 
 float *depthBuffer;
-typedef struct Screen 
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-} Screen;
-Screen *screen;
+Uint32 *pixels;
+SDL_Texture *frameBufferTexture;
 
 vec4 cameraPosition = {0.f, 0.f, -1.f};
 vec4 cameraTarget   = {0.f, 0.f, 0.f};
 vec4 cameraUp 	    = {0.f, 1.f, 0.f};
 
-float cameraAngle = 0;
+float cameraAngle = 0.5;
 
 Button spinCamLeft;
 Button spinCamRight;
@@ -36,5 +31,6 @@ SDL_Event event;
 bool isRunning = true;
 
 object exObj;
+object levelFloor;
 
 #endif

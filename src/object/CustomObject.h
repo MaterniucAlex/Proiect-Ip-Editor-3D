@@ -5,6 +5,7 @@
 typedef struct point {
 	float coords[4];
 	unsigned char color[4];
+	char pointId;
 } point;
 
 typedef struct object {
@@ -22,6 +23,7 @@ void initEmptyObject(object *obj)
 
 void addPointToObject(object *obj, point point)
 {
+	point.pointId = obj->nextPointInList;
 	obj->points[obj->nextPointInList] = point;
 	obj->nextPointInList += 1;
 }

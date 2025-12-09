@@ -12,6 +12,11 @@ void render()
 {
 	int renderStart = SDL_GetTicks();
 
+	memset(pixels, 0, SCREEN_W * SCREEN_H * sizeof(Uint32));
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+
+	renderObject(&levelFloor, renderer);
 	renderObject(&exObj, renderer);
 
 	///////////////////////////
@@ -46,18 +51,33 @@ void renderObject(object *object, SDL_Renderer *renderer)
 
 	initProjectionMatrix(calcMat, 90, (float)SCREEN_W / SCREEN_H, 0.1f, 10.f);
 	multMatByLeftMat(transformMat, calcMat);
+
+	point p1, p2, p3;
+	p1.pointId = -1;
+	p2.pointId = -1;
+	p3.pointId = -1;
 	
-	for (int i = 0; i < object->nextPointId; i+=3)
+	for (int i = 0; i < (object->nextPointId - object->nextPointId % 3); i+=3)
 	{
-		point p1 = object->points[object->pointId[i + 0]];
-		multMatByVec(transformMat, p1.coords);
-		turnScreenCoordToVecCoord(p1.coords, SCREEN_W, SCREEN_H);
+		if (object->pointId[i + 0] == p2.pointId)
+			p1 = p2;
+		else
+		{
+			p1 = object->points[object->pointId[i + 0]];
+			multMatByVec(transformMat, p1.coords);
+			turnScreenCoordToVecCoord(p1.coords, SCREEN_W, SCREEN_H);
+		}
 
-		point p2 = object->points[object->pointId[i + 1]];
-		multMatByVec(transformMat, p2.coords);
-		turnScreenCoordToVecCoord(p2.coords, SCREEN_W, SCREEN_H);
+		if (object->pointId[i + 1] == p3.pointId)
+			p2 = p3;
+		else
+		{
+			p2 = object->points[object->pointId[i + 1]];
+			multMatByVec(transformMat, p2.coords);
+			turnScreenCoordToVecCoord(p2.coords, SCREEN_W, SCREEN_H);
+		}
 
-		point p3 = object->points[object->pointId[i + 2]];
+		p3 = object->points[object->pointId[i + 2]];
 		multMatByVec(transformMat, p3.coords);
 		turnScreenCoordToVecCoord(p3.coords, SCREEN_W, SCREEN_H);
 

@@ -3,6 +3,7 @@
 #include "../update/update.c"
 #include "../extra/matrixMath.h"
 #include <SDL3/SDL_rect.h>
+#include <SDL3/SDL_render.h>
 #include <stdio.h>
 void init()
 {
@@ -11,7 +12,14 @@ void init()
 	renderer = safeInit(SDL_CreateRenderer(window, NULL));
 
 	depthBuffer 	= malloc(sizeof(float)  * (SCREEN_W * SCREEN_H));
-	screen		= malloc(sizeof(Screen) * (SCREEN_W * SCREEN_H));
+	pixels = (Uint32 *)malloc(SCREEN_W * SCREEN_H * sizeof(Uint32));
+	frameBufferTexture = SDL_CreateTexture(
+		renderer,
+		SDL_PIXELFORMAT_ARGB8888, // Standard 32-bit format (Alpha, Red, Green, Blue)
+		SDL_TEXTUREACCESS_STREAMING, // Crucial: Allows frequent locking/updating
+		SCREEN_W,
+		SCREEN_H
+	);
 
 	for(int i = 0; i < SCREEN_W; i++)
 	{
@@ -50,12 +58,23 @@ void init()
 
 	createTriangleFromPointIds(&exObj, 0, 2, 4);
 	createTriangleFromPointIds(&exObj, 2, 4, 6);
+
+	initEmptyObject(&levelFloor);
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 255, 255, 255}}); //BBL
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {255, 255, 255, 255}}); //BBR
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {255, 255, 255, 255}}); //BTL
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}}); //BTR
+
+	createTriangleFromPointIds(&levelFloor, 0, 1, 2);
+	createTriangleFromPointIds(&levelFloor, 1, 2, 3);
+
 }
 
 void quit()
 {
-	free(screen);
+	free(pixels);
 	free(depthBuffer);
+	SDL_DestroyTexture(frameBufferTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
