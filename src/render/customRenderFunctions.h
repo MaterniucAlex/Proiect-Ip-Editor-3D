@@ -14,36 +14,29 @@ void swapPoints(point *p1, point *p2)
 	*p2 = aux;
 }
 
-// Replace drawLineCustom with this:
 void drawScanline(int y, point p1, point p2)
 {
-    // 1. Sort Left to Right
     if (p1.coords[0] > p2.coords[0]) swapPoints(&p1, &p2);
 
     int x1 = (int)p1.coords[0];
     int x2 = (int)p2.coords[0];
     
-    // 2. Calculate Distance (Just X distance!)
     int dist = x2 - x1;
-    if (dist <= 0) return; // Prevent divide by 0
+    if (dist <= 0) return;
     
-    // 3. Calculate Steps
     float invDist = 1.0f / dist;
     float zStep = (p2.coords[2] - p1.coords[2]) * invDist;
     float rStep = (p2.color[0] - p1.color[0]) * invDist;
     float gStep = (p2.color[1] - p1.color[1]) * invDist;
     float bStep = (p2.color[2] - p1.color[2]) * invDist;
 
-    // 4. Start Values
     float curZ = p1.coords[2];
     float curR = p1.color[0];
     float curG = p1.color[1];
     float curB = p1.color[2];
 
-    // 5. Draw Loop
     for(int x = x1; x < x2; x++) // Note: usually < x2 to avoid overlapping edges
     {
-        // Bounds Check
         if (x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H) {
             int index = x + y * SCREEN_W;
             

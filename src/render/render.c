@@ -17,6 +17,11 @@ void render()
 	///////////////////////////
 
 	renderCustomScreen();
+
+	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
+	SDL_RenderFillRect(renderer, &spinCamLeft.buttonRect);
+	SDL_RenderFillRect(renderer, &spinCamRight.buttonRect);
+
 	SDL_RenderPresent(renderer);
 
 	int renderEnd = SDL_GetTicks();

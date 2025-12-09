@@ -1,6 +1,8 @@
 #include "stdlib.h"
 #include "../ProjectVars.h"
+#include "../update/update.c"
 #include "../extra/matrixMath.h"
+#include <SDL3/SDL_rect.h>
 #include <stdio.h>
 void init()
 {
@@ -21,15 +23,21 @@ void init()
 
 	initEmptyObject(&exObj);
 
+	//BUTTONS
+	spinCamLeft.buttonRect = (SDL_FRect){10, 10, 100, 50};
+	spinCamLeft.action = rotateCameraLeft;
+	spinCamRight.buttonRect = (SDL_FRect){10, 70, 100, 50};
+	spinCamRight.action = rotateCameraRight;
+
 	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
 	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
 	addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
 	addPointToObject(&exObj, (point){{ 0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTR
 	
-	addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 255, 0  , 255}}); //BBL
-	addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 255, 0  , 255}}); //BBR
-	addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 255, 0  , 255}}); //BTL
-	addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 255, 0  , 255}}); //BTR
+	addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //BBL
+	addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //BBR
+	addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //BTL
+	addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //BTR
 
 	createTriangleFromPointIds(&exObj, 0, 1, 2);
 	createTriangleFromPointIds(&exObj, 1, 2, 3);
