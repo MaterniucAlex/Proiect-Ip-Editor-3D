@@ -5,6 +5,7 @@
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
+#include <stdio.h>
 
 void renderObject(object *object, SDL_Renderer *renderer);
 
@@ -13,6 +14,7 @@ void render()
 	int renderStart = SDL_GetTicks();
 
 	memset(pixels, 0, SCREEN_W * SCREEN_H * sizeof(Uint32));
+	memset(depthBuffer, 127, SCREEN_W * SCREEN_H * sizeof(float));
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 

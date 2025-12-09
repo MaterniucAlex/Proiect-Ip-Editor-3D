@@ -82,9 +82,9 @@ void drawLineCustom(point p1, point p2)
     float yStep = yDist / totalDistance;
     float zStep = zDist / totalDistance;
 
-    //float rStep = (p2.color[0] - p1.color[0]) / totalDistance;
-    //float gStep = (p2.color[1] - p1.color[1]) / totalDistance;
-    //float bStep = (p2.color[2] - p1.color[2]) / totalDistance;
+    float rStep = (p2.color[0] - p1.color[0]) / totalDistance;
+    float gStep = (p2.color[1] - p1.color[1]) / totalDistance;
+    float bStep = (p2.color[2] - p1.color[2]) / totalDistance;
 
     for(int i = 0; i < (int)(totalDistance + 0.5f); i++)
     {
@@ -100,9 +100,11 @@ void drawLineCustom(point p1, point p2)
 
         if (curZ < depthBuffer[index]) 
         {
-            //screen[index].r = p1.color[0] + i * rStep;
-            //screen[index].g = p1.color[1] + i * gStep;
-            //screen[index].b = p1.color[2] + i * bStep;
+		Uint32 color = (255 << 24) | 
+			((unsigned char)(p1.color[0] + i * rStep) << 16) | 
+			((unsigned char)(p1.color[1] + i * gStep) << 8) | 
+			((unsigned char)(p1.color[2] + i * bStep));
+		pixels[index] = color; // Single memory write!
             
             depthBuffer[index] = curZ;
         }
@@ -213,9 +215,6 @@ void draw_filled_triangle(point v1, point v2, point v3) {
 
 void renderCustomScreen()
 {
-	for(int x = 0; x < SCREEN_W; x++)
-		for (int y = 0; y < SCREEN_H; y++)
-			depthBuffer[x + y * SCREEN_W] = 99999;
 	SDL_UpdateTexture(frameBufferTexture, NULL, pixels, SCREEN_W * sizeof(Uint32));
 	SDL_RenderTexture(renderer, frameBufferTexture, NULL, NULL);
 }

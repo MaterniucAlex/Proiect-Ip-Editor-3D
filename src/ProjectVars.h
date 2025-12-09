@@ -1,7 +1,7 @@
 #pragma once
 #include "extra/matrixMath.h"
-#include "extra/button.h"
 #include "object/CustomObject.h"
+#include <SDL3/SDL_mouse.h>
 #ifndef VARS
 #define VARS
 #include <SDL3/SDL.h>
@@ -24,13 +24,20 @@ vec4 cameraUp 	    = {0.f, 1.f, 0.f};
 
 float cameraAngle = 0.5;
 
-Button spinCamLeft;
-Button spinCamRight;
+float mouseX = 0, mouseY = 0;
+bool mouseHold = false;
+SDL_Cursor *pointerCursor;
+SDL_Cursor *normalCursor;
 
 SDL_Event event;
 bool isRunning = true;
 
 object exObj;
 object levelFloor;
+
+#include "extra/button.h"
+
+Button spinCamLeft;
+Button spinCamRight;
 
 #endif

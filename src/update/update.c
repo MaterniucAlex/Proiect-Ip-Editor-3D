@@ -9,8 +9,6 @@
 #include <SDL3/SDL_timer.h>
 #include <math.h>
 
-float mouseX, mouseY;
-bool mouseHold = false;
 void update()
 {
 	while (SDL_PollEvent(&event))
@@ -29,14 +27,17 @@ void update()
 		}
 
 	}
-	if (mouseHold)
-	{
-		SDL_GetMouseState(&mouseX, &mouseY);
-		if (isInsideButton(mouseX, mouseY, spinCamLeft))
-			spinCamLeft.action();
-		if (isInsideButton(mouseX, mouseY, spinCamRight))
-			spinCamRight.action();
-	}
+
+	SDL_GetMouseState(&mouseX, &mouseY);
+
+	int buttonsUpdated = 0;
+	buttonsUpdated += updateButton(spinCamLeft);
+	buttonsUpdated += updateButton(spinCamRight);
+
+	if (buttonsUpdated > 0)
+		SDL_SetCursor(pointerCursor);
+	else
+		SDL_SetCursor(normalCursor);
 
 	cameraPosition[0] = cos(cameraAngle);
 	cameraPosition[1] = -1.f;

@@ -2,6 +2,7 @@
 #include "../ProjectVars.h"
 #include "../update/update.c"
 #include "../extra/matrixMath.h"
+#include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <stdio.h>
@@ -60,13 +61,16 @@ void init()
 	createTriangleFromPointIds(&exObj, 2, 4, 6);
 
 	initEmptyObject(&levelFloor);
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 255, 255, 255}}); //BBL
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {255, 255, 255, 255}}); //BBR
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {255, 255, 255, 255}}); //BTL
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}}); //BBL
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {0  , 0  , 255, 255}}); //BBR
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {0  , 255, 0  , 255}}); //BTL
 	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}}); //BTR
 
 	createTriangleFromPointIds(&levelFloor, 0, 1, 2);
 	createTriangleFromPointIds(&levelFloor, 1, 2, 3);
+
+	pointerCursor = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_POINTER);
+	normalCursor  = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_DEFAULT);
 
 }
 
@@ -74,6 +78,8 @@ void quit()
 {
 	free(pixels);
 	free(depthBuffer);
+	SDL_DestroyCursor(normalCursor);
+	SDL_DestroyCursor(pointerCursor);
 	SDL_DestroyTexture(frameBufferTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
