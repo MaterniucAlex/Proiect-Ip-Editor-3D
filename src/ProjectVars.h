@@ -14,6 +14,8 @@ const int FPS = 30;
 SDL_Window   *window;
 SDL_Renderer *renderer;
 
+bool wireframeRender = false;
+
 float *depthBuffer;
 Uint32 *pixels;
 SDL_Texture *frameBufferTexture;
@@ -22,7 +24,8 @@ vec4 cameraPosition = {0.f, 0.f, -1.f};
 vec4 cameraTarget   = {0.f, 0.f, 0.f};
 vec4 cameraUp 	    = {0.f, 1.f, 0.f};
 
-float cameraAngle = 0.5;
+float cameraXangle = 0.5;
+float cameraYangle = -0.5;
 
 float mouseX = 0, mouseY = 0;
 bool mouseHold = false;
@@ -39,5 +42,8 @@ object levelFloor;
 
 Button spinCamLeft;
 Button spinCamRight;
+Button spinCamUp;
+Button spinCamDown;
+Button wireframeButton;
 
 #endif

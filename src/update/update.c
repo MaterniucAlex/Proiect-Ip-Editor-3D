@@ -33,24 +33,43 @@ void update()
 	int buttonsUpdated = 0;
 	buttonsUpdated += updateButton(spinCamLeft);
 	buttonsUpdated += updateButton(spinCamRight);
+	buttonsUpdated += updateButton(spinCamUp);
+	buttonsUpdated += updateButton(spinCamDown);
+	buttonsUpdated += updateButton(wireframeButton);
 
 	if (buttonsUpdated > 0)
 		SDL_SetCursor(pointerCursor);
 	else
 		SDL_SetCursor(normalCursor);
 
-	cameraPosition[0] = cos(cameraAngle);
-	cameraPosition[1] = -1.f;
-	cameraPosition[2] = sin(cameraAngle);
+	cameraPosition[0] = cos(cameraXangle);
+	cameraPosition[1] = cameraYangle;
+	cameraPosition[2] = sin(cameraXangle);
 }
 
 void rotateCameraLeft()
 {
-	cameraAngle += 0.1f;
+	cameraXangle += 0.1f;
 }
 void rotateCameraRight()
 {
-	cameraAngle -= 0.1f;
+	cameraXangle -= 0.1f;
 }
 
+void rotateCameraUp()
+{
+	if (cameraYangle > -0.9)
+		cameraYangle -= 0.1f;
+}
+
+void rotateCameraDown()
+{
+	if (cameraYangle < 0.9)
+		cameraYangle += 0.1f;
+}
+
+void toggleWireframe()
+{
+	wireframeRender = !wireframeRender;
+}
 #endif

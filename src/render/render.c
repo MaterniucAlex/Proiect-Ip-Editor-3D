@@ -28,6 +28,9 @@ void render()
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
 	SDL_RenderFillRect(renderer, &spinCamLeft.buttonRect);
 	SDL_RenderFillRect(renderer, &spinCamRight.buttonRect);
+	SDL_RenderFillRect(renderer, &spinCamUp.buttonRect);
+	SDL_RenderFillRect(renderer, &spinCamDown.buttonRect);
+	SDL_RenderFillRect(renderer, &wireframeButton.buttonRect);
 
 	SDL_RenderPresent(renderer);
 
@@ -83,14 +86,16 @@ void renderObject(object *object, SDL_Renderer *renderer)
 		multMatByVec(transformMat, p3.coords);
 		turnScreenCoordToVecCoord(p3.coords, SCREEN_W, SCREEN_H);
 
-		draw_filled_triangle(p1, p2, p3);
+		if (!wireframeRender)
+			draw_filled_triangle(p1, p2, p3);
+		else
+		{
+			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			drawLineCustom(p1, p2);
+			drawLineCustom(p1, p3);
+			drawLineCustom(p2, p3);
+		}
 
-		//unsigned char r, g, b, a;
-		//SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
-		//SDL_SetRenderDrawColor(renderer, 255 - r, 255 - g, 255 - b, 255);
-		//drawLineCustom(p1, p2);
-		//drawLineCustom(p1, p3);
-		//drawLineCustom(p2, p3);
 
 	}
 }
