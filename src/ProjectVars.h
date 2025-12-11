@@ -41,11 +41,6 @@ object levelFloor;
 
 #include "extra/button.h"
 
-Button spinCamLeft;
-Button spinCamRight;
-Button spinCamUp;
-Button spinCamDown;
-
 Button wireframeButton;
 Button nextPoint;
 Button prevPoint;

@@ -33,11 +33,6 @@ void init()
 	initEmptyObject(&exObj);
 
 	//BUTTONS
-	spinCamLeft  = createButton(BUTTON_HOLD, (SDL_FRect){10, 10, 100, 50}, rotateCameraLeft);
-	spinCamRight = createButton(BUTTON_HOLD, (SDL_FRect){10, 70, 100, 50}, rotateCameraRight);
-	spinCamUp    = createButton(BUTTON_HOLD, (SDL_FRect){690, 10, 100, 50}, rotateCameraUp);
-	spinCamDown  = createButton(BUTTON_HOLD, (SDL_FRect){690, 70, 100, 50}, rotateCameraDown);
-
 	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, toggleWireframe);
 
 	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10 , 540, 100, 50}, selectNextPoint);

@@ -28,11 +28,6 @@ void render()
 
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
 
-	SDL_RenderFillRect(renderer, &spinCamLeft.buttonRect);
-	SDL_RenderFillRect(renderer, &spinCamRight.buttonRect);
-	SDL_RenderFillRect(renderer, &spinCamUp.buttonRect);
-	SDL_RenderFillRect(renderer, &spinCamDown.buttonRect);
-
 	SDL_RenderFillRect(renderer, &wireframeButton.buttonRect);
 	SDL_RenderFillRect(renderer, &nextPoint.buttonRect);
 	SDL_RenderFillRect(renderer, &prevPoint.buttonRect);

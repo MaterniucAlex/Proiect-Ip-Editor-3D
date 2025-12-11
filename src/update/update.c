@@ -31,11 +31,17 @@ void update()
 
 	SDL_GetMouseState(&mouseX, &mouseY);
 
+	if (mouseX < 50)
+		cameraXangle -= 0.05f;
+	if (mouseX > SCREEN_W - 50)
+		cameraXangle += 0.05f;
+
+	if (mouseY < 50 && cameraYangle > -0.9)
+		cameraYangle -= 0.05f;
+	if (mouseY > SCREEN_H - 50 && cameraYangle < 0.9)
+		cameraYangle += 0.05f;
+
 	int buttonsUpdated = 0;
-	buttonsUpdated += updateButton(spinCamLeft);
-	buttonsUpdated += updateButton(spinCamRight);
-	buttonsUpdated += updateButton(spinCamUp);
-	buttonsUpdated += updateButton(spinCamDown);
 
 	buttonsUpdated += updateButton(wireframeButton);
 	buttonsUpdated += updateButton(nextPoint);
@@ -52,27 +58,6 @@ void update()
 	cameraPosition[0] = cos(cameraXangle);
 	cameraPosition[1] = cameraYangle;
 	cameraPosition[2] = sin(cameraXangle);
-}
-
-void rotateCameraLeft()
-{
-	cameraXangle += 0.1f;
-}
-void rotateCameraRight()
-{
-	cameraXangle -= 0.1f;
-}
-
-void rotateCameraUp()
-{
-	if (cameraYangle > -0.9)
-		cameraYangle -= 0.1f;
-}
-
-void rotateCameraDown()
-{
-	if (cameraYangle < 0.9)
-		cameraYangle += 0.1f;
 }
 
 void toggleWireframe()
