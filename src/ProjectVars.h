@@ -53,6 +53,11 @@ Button nextPoint;
 Button prevPoint;
 
 Button pointPlusX;
+Button pointMinusX;
+Button pointPlusY;
+Button pointMinusY;
+Button pointPlusZ;
+Button pointMinusZ;
 
 point *selectedPoint;
 int pointX;

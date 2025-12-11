@@ -39,7 +39,12 @@ void init()
 	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, 540, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
 	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, 540, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
 
-	pointPlusX = createButton(BUTTON_HOLD, (SDL_FRect){70, 480, 50, 50}, (SDL_FRect){0, 100, 100, 100}, plusPointX);
+	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){10, 480, 50, 50}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
+	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){70, 480, 50, 50}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
+	pointMinusY = createButton(BUTTON_HOLD, (SDL_FRect){10, 420, 50, 50}, (SDL_FRect){100, 200, 100, 100}, minusPointY);
+	pointPlusY  = createButton(BUTTON_HOLD, (SDL_FRect){70, 420, 50, 50}, (SDL_FRect){0,   200, 100, 100}, plusPointY);
+	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, 360, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
+	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, 360, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
 
 	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
 	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR

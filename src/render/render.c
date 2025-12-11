@@ -34,7 +34,11 @@ void render()
 	renderButton(&nextPoint);
 	renderButton(&prevPoint);
 	renderButton(&pointPlusX);
-
+	renderButton(&pointMinusX);
+	renderButton(&pointPlusY);
+	renderButton(&pointMinusY);
+	renderButton(&pointPlusZ);
+	renderButton(&pointMinusZ);
 
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_FRect rect = {pointX - 5, pointY - 5, 10, 10};

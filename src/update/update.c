@@ -57,6 +57,11 @@ void update()
 	buttonsUpdated += updateButton(prevPoint);
 
 	buttonsUpdated += updateButton(pointPlusX);
+	buttonsUpdated += updateButton(pointMinusX);
+	buttonsUpdated += updateButton(pointPlusY);
+	buttonsUpdated += updateButton(pointMinusY);
+	buttonsUpdated += updateButton(pointPlusZ);
+	buttonsUpdated += updateButton(pointMinusZ);
 	mouseClicked = false;
 
 	if (buttonsUpdated > 0)
@@ -90,8 +95,35 @@ void selectPrevPoint()
 		selectedPoint = &exObj.points[exObj.nextPointInList-1];
 }
 
+const float changeVal = 0.01;
+
 void plusPointX()
 {
-	selectedPoint->coords[0] += 0.01;
+	selectedPoint->coords[0] += changeVal;
+}
+
+void minusPointX()
+{
+	selectedPoint->coords[0] -= changeVal;
+}
+
+void plusPointY()
+{
+	selectedPoint->coords[1] -= changeVal;
+}
+
+void minusPointY()
+{
+	selectedPoint->coords[1] += changeVal;
+}
+
+void plusPointZ()
+{
+	selectedPoint->coords[2] += changeVal;
+}
+
+void minusPointZ()
+{
+	selectedPoint->coords[2] -= changeVal;
 }
 #endif
