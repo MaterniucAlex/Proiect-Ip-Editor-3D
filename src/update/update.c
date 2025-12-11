@@ -21,9 +21,21 @@ void update()
 			case SDL_EVENT_MOUSE_BUTTON_UP:
 				mouseHold = false;
 				mouseClicked = true;
+				if (event.button.button == SDL_BUTTON_RIGHT && camDragStartX != 0)
+				{
+					camDragStartX = 0;
+					camDragStartY = 0;
+				}
 				break;
 			case SDL_EVENT_MOUSE_BUTTON_DOWN:
-				mouseHold = true;
+				if (event.button.button == SDL_BUTTON_LEFT)
+					mouseHold = true;
+				if (event.button.button == SDL_BUTTON_RIGHT && camDragStartX == 0)
+				{
+					SDL_GetMouseState(&camDragStartX, &camDragStartY);
+					camWhenDragStartX = cameraXangle;
+					camWhenDragStartY = cameraYangle;
+				}
 				break;
 		}
 
@@ -31,15 +43,12 @@ void update()
 
 	SDL_GetMouseState(&mouseX, &mouseY);
 
-	if (mouseX < 50)
-		cameraXangle -= 0.05f;
-	if (mouseX > SCREEN_W - 50)
-		cameraXangle += 0.05f;
+	if (camDragStartX != 0 && camDragStartY != 0)
+	{
+		cameraXangle = camWhenDragStartX + (camDragStartX - mouseX) / 200.f;
+		cameraYangle = camWhenDragStartY + (camDragStartY - mouseY) / 200.f;
+	}
 
-	if (mouseY < 50 && cameraYangle > -0.9)
-		cameraYangle -= 0.05f;
-	if (mouseY > SCREEN_H - 50 && cameraYangle < 0.9)
-		cameraYangle += 0.05f;
 
 	int buttonsUpdated = 0;
 

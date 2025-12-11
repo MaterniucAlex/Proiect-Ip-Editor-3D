@@ -28,6 +28,9 @@ float cameraXangle = 0.5;
 float cameraYangle = -0.5;
 
 float mouseX = 0, mouseY = 0;
+float camDragStartX = 0, camDragStartY = 0;
+float camWhenDragStartX = 0, camWhenDragStartY = 0;
+
 bool mouseHold = false;
 bool mouseClicked= false;
 SDL_Cursor *pointerCursor;
