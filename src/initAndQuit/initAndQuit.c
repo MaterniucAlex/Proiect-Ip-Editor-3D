@@ -33,17 +33,12 @@ void init()
 	initEmptyObject(&exObj);
 
 	//BUTTONS
-	spinCamLeft.buttonRect = (SDL_FRect){10, 10, 100, 50};
-	spinCamLeft.action = rotateCameraLeft;
-	spinCamRight.buttonRect = (SDL_FRect){10, 70, 100, 50};
-	spinCamRight.action = rotateCameraRight;
-	spinCamUp.buttonRect = (SDL_FRect){690, 10, 100, 50};
-	spinCamUp.action = rotateCameraUp;
-	spinCamDown.buttonRect = (SDL_FRect){690, 70, 100, 50};
-	spinCamDown.action = rotateCameraDown;
+	spinCamLeft  = createButton(BUTTON_HOLD, (SDL_FRect){10, 10, 100, 50}, rotateCameraLeft);
+	spinCamRight = createButton(BUTTON_HOLD, (SDL_FRect){10, 70, 100, 50}, rotateCameraRight);
+	spinCamUp    = createButton(BUTTON_HOLD, (SDL_FRect){690, 10, 100, 50}, rotateCameraUp);
+	spinCamDown  = createButton(BUTTON_HOLD, (SDL_FRect){690, 70, 100, 50}, rotateCameraDown);
 
-	wireframeButton.buttonRect = (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50};
-	wireframeButton.action = toggleWireframe;
+	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, toggleWireframe);
 
 	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
 	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR

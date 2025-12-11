@@ -20,6 +20,7 @@ void update()
 				break;
 			case SDL_EVENT_MOUSE_BUTTON_UP:
 				mouseHold = false;
+				mouseClicked = true;
 				break;
 			case SDL_EVENT_MOUSE_BUTTON_DOWN:
 				mouseHold = true;
@@ -36,6 +37,7 @@ void update()
 	buttonsUpdated += updateButton(spinCamUp);
 	buttonsUpdated += updateButton(spinCamDown);
 	buttonsUpdated += updateButton(wireframeButton);
+	mouseClicked = false;
 
 	if (buttonsUpdated > 0)
 		SDL_SetCursor(pointerCursor);

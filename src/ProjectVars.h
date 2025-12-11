@@ -29,6 +29,7 @@ float cameraYangle = -0.5;
 
 float mouseX = 0, mouseY = 0;
 bool mouseHold = false;
+bool mouseClicked= false;
 SDL_Cursor *pointerCursor;
 SDL_Cursor *normalCursor;
 
