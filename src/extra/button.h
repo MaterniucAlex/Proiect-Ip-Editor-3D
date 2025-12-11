@@ -2,6 +2,7 @@
 #include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_rect.h>
 #include "../ProjectVars.h"
+#include "SDL3/SDL_render.h"
 #ifndef BUTTON
 #define BUTTON
 
@@ -11,30 +12,36 @@ typedef struct Button {
 	
 	char type;
 	SDL_FRect buttonRect;
-	char text[20];
+	SDL_FRect textureRect;
 	void (*action)();
 
 } Button;
 
-Button createButton(char buttonType, SDL_FRect buttonDimensions, void (*func)())
+Button createButton(char buttonType, SDL_FRect buttonDimensions, SDL_FRect textureDim, void (*func)())
 {
 	return (Button){
 		.type = buttonType,
 		.buttonRect = buttonDimensions,
 		.action = func,
-		.text = "Button"
+		.textureRect = textureDim
 	};
 }
 
-int isInsideButton(int x, int y, Button btn)
+void renderButton(Button *btn)
 {
-	return (x > btn.buttonRect.x && x < (btn.buttonRect.x + btn.buttonRect.w) &&
-	y > btn.buttonRect.y && y < (btn.buttonRect.y + btn.buttonRect.h));
+	if (!SDL_RenderTexture(renderer, buttonTexture, &btn->textureRect, &btn->buttonRect))
+		SDL_RenderFillRect(renderer, &btn->buttonRect);
+}
+
+int isInsideButton(int x, int y, Button *btn)
+{
+	return (x > btn->buttonRect.x && x < (btn->buttonRect.x + btn->buttonRect.w) &&
+	y > btn->buttonRect.y && y < (btn->buttonRect.y + btn->buttonRect.h));
 }
 
 int updateButton(Button btn)
 {
-	if (isInsideButton(mouseX, mouseY, btn))
+	if (isInsideButton(mouseX, mouseY, &btn))
 	{
 		if (	(mouseHold && btn.type == BUTTON_HOLD) 	 ||
 			(mouseClicked && btn.type == BUTTON_CLICK))

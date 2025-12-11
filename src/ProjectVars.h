@@ -1,4 +1,6 @@
 #pragma once
+#include "SDL3/SDL_render.h"
+#include "SDL3/SDL_surface.h"
 #include "extra/matrixMath.h"
 #include "object/CustomObject.h"
 #include <SDL3/SDL_mouse.h>
@@ -26,6 +28,8 @@ vec4 cameraUp 	    = {0.f, 1.f, 0.f};
 
 float cameraXangle = 0.5;
 float cameraYangle = -0.5;
+
+SDL_Texture *buttonTexture;
 
 float mouseX = 0, mouseY = 0;
 float camDragStartX = 0, camDragStartY = 0;

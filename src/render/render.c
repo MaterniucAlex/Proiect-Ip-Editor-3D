@@ -2,11 +2,13 @@
 #include "../object/CustomObject.h"
 #include "../extra/matrixMath.h"
 #include "customRenderFunctions.h"
+#include "SDL3_image/SDL_image.h"
+#include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
-#include <stdio.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 void renderObject(object *object, SDL_Renderer *renderer);
 
@@ -28,11 +30,11 @@ void render()
 
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
 
-	SDL_RenderFillRect(renderer, &wireframeButton.buttonRect);
-	SDL_RenderFillRect(renderer, &nextPoint.buttonRect);
-	SDL_RenderFillRect(renderer, &prevPoint.buttonRect);
+	renderButton(&wireframeButton);
+	renderButton(&nextPoint);
+	renderButton(&prevPoint);
+	renderButton(&pointPlusX);
 
-	SDL_RenderFillRect(renderer, &pointPlusX.buttonRect);
 
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_FRect rect = {pointX - 5, pointY - 5, 10, 10};

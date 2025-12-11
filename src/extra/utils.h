@@ -11,7 +11,7 @@
 void *safeInit(void *ptr)
 {
 	if (ptr == NULL)
-		printf("%s", SDL_GetError());
+		printf("%s\n", SDL_GetError());
 	return ptr;
 }
 

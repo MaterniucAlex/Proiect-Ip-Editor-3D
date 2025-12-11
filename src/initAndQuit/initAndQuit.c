@@ -1,11 +1,10 @@
+#include "SDL3_image/SDL_image.h"
 #include "stdlib.h"
 #include "../ProjectVars.h"
 #include "../update/update.c"
-#include "../extra/matrixMath.h"
 #include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
-#include <stdio.h>
 void init()
 {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -22,6 +21,8 @@ void init()
 		SCREEN_H
 	);
 
+	buttonTexture = IMG_LoadTexture(renderer, "assets/buttonTexture.png");
+
 	for(int i = 0; i < SCREEN_W; i++)
 	{
 		for (int j = 0; j < SCREEN_H; j++)
@@ -33,12 +34,12 @@ void init()
 	initEmptyObject(&exObj);
 
 	//BUTTONS
-	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, toggleWireframe);
+	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 50, 50}, (SDL_FRect){0, 0, 100, 100}, toggleWireframe);
 
-	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10 , 540, 100, 50}, selectNextPoint);
-	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){120, 540, 100, 50}, selectPrevPoint);
+	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, 540, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
+	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, 540, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
 
-	pointPlusX = createButton(BUTTON_HOLD, (SDL_FRect){120, 480, 100, 50}, plusPointX);
+	pointPlusX = createButton(BUTTON_HOLD, (SDL_FRect){70, 480, 50, 50}, (SDL_FRect){0, 100, 100, 100}, plusPointX);
 
 	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
 	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
@@ -85,6 +86,7 @@ void quit()
 	SDL_DestroyCursor(normalCursor);
 	SDL_DestroyCursor(pointerCursor);
 	SDL_DestroyTexture(frameBufferTexture);
+	SDL_DestroyTexture(buttonTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
