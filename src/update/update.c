@@ -36,7 +36,12 @@ void update()
 	buttonsUpdated += updateButton(spinCamRight);
 	buttonsUpdated += updateButton(spinCamUp);
 	buttonsUpdated += updateButton(spinCamDown);
+
 	buttonsUpdated += updateButton(wireframeButton);
+	buttonsUpdated += updateButton(nextPoint);
+	buttonsUpdated += updateButton(prevPoint);
+
+	buttonsUpdated += updateButton(pointPlusX);
 	mouseClicked = false;
 
 	if (buttonsUpdated > 0)
@@ -73,5 +78,26 @@ void rotateCameraDown()
 void toggleWireframe()
 {
 	wireframeRender = !wireframeRender;
+}
+
+void selectNextPoint()
+{
+	if (selectedPoint->pointId < exObj.nextPointInList)
+		selectedPoint = &exObj.points[selectedPoint->pointId+1];
+	else
+		selectedPoint = &exObj.points[0];
+}
+
+void selectPrevPoint()
+{
+	if (selectedPoint->pointId > 0)
+		selectedPoint = &exObj.points[selectedPoint->pointId-1];
+	else
+		selectedPoint = &exObj.points[exObj.nextPointInList-1];
+}
+
+void plusPointX()
+{
+	selectedPoint->coords[0] += 0.01;
 }
 #endif

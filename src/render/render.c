@@ -2,6 +2,7 @@
 #include "../object/CustomObject.h"
 #include "../extra/matrixMath.h"
 #include "customRenderFunctions.h"
+#include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
@@ -26,11 +27,21 @@ void render()
 	renderCustomScreen();
 
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
+
 	SDL_RenderFillRect(renderer, &spinCamLeft.buttonRect);
 	SDL_RenderFillRect(renderer, &spinCamRight.buttonRect);
 	SDL_RenderFillRect(renderer, &spinCamUp.buttonRect);
 	SDL_RenderFillRect(renderer, &spinCamDown.buttonRect);
+
 	SDL_RenderFillRect(renderer, &wireframeButton.buttonRect);
+	SDL_RenderFillRect(renderer, &nextPoint.buttonRect);
+	SDL_RenderFillRect(renderer, &prevPoint.buttonRect);
+
+	SDL_RenderFillRect(renderer, &pointPlusX.buttonRect);
+
+	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+	SDL_FRect rect = {pointX - 5, pointY - 5, 10, 10};
+	SDL_RenderFillRect(renderer, &rect);
 
 	SDL_RenderPresent(renderer);
 
@@ -96,6 +107,21 @@ void renderObject(object *object, SDL_Renderer *renderer)
 			drawLineCustom(p2, p3);
 		}
 
+		if (selectedPoint->pointId == p1.pointId)
+		{
+			pointX = p1.coords[0];
+			pointY = p1.coords[1];
+		}
+		if (selectedPoint->pointId == p2.pointId)
+		{
+			pointX = p2.coords[0];
+			pointY = p2.coords[1];
+		}
+		if (selectedPoint->pointId == p3.pointId)
+		{
+			pointX = p3.coords[0];
+			pointY = p3.coords[1];
+		}
 
 	}
 }

@@ -40,6 +40,11 @@ void init()
 
 	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, toggleWireframe);
 
+	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10 , 540, 100, 50}, selectNextPoint);
+	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){120, 540, 100, 50}, selectPrevPoint);
+
+	pointPlusX = createButton(BUTTON_HOLD, (SDL_FRect){120, 480, 100, 50}, plusPointX);
+
 	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
 	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
 	addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
@@ -61,6 +66,8 @@ void init()
 
 	createTriangleFromPointIds(&exObj, 0, 2, 4);
 	createTriangleFromPointIds(&exObj, 2, 4, 6);
+
+	selectedPoint = &exObj.points[0];
 
 	initEmptyObject(&levelFloor);
 	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}}); //BBL

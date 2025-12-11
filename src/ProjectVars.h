@@ -45,6 +45,15 @@ Button spinCamLeft;
 Button spinCamRight;
 Button spinCamUp;
 Button spinCamDown;
+
 Button wireframeButton;
+Button nextPoint;
+Button prevPoint;
+
+Button pointPlusX;
+
+point *selectedPoint;
+int pointX;
+int pointY;
 
 #endif
