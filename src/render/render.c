@@ -40,8 +40,10 @@ void render()
 	renderButton(&pointPlusZ);
 	renderButton(&pointMinusZ);
 
+	////
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	SDL_FRect rect = {pointX - 5, pointY - 5, 10, 10};
+	////
 	SDL_RenderFillRect(renderer, &rect);
 
 	SDL_RenderPresent(renderer);
@@ -51,6 +53,7 @@ void render()
 	SDL_Delay(waitTime > 0 ? waitTime : 0);
 }
 
+void drawSelectedPoint(mat4 transformMat);
 void renderObject(object *object, SDL_Renderer *renderer)
 {
 	mat4 transformMat;
@@ -125,4 +128,52 @@ void renderObject(object *object, SDL_Renderer *renderer)
 		}
 
 	}
+
+	drawSelectedPoint(transformMat);
+
+}
+
+void drawSelectedPoint(mat4 transformMat)
+{
+	point pOrigin = (point){.coords = {
+		selectedPoint->coords[0],
+		selectedPoint->coords[1],
+		selectedPoint->coords[2],
+		selectedPoint->coords[3],
+	}, .color = {0, 0, 0, 255}};
+
+	point pX = (point){.coords = {
+		selectedPoint->coords[0] + 0.1,
+		selectedPoint->coords[1],
+		selectedPoint->coords[2],
+		selectedPoint->coords[3],
+	}, .color = {0, 255, 0, 255}};
+
+	point pY = (point){.coords = {
+		selectedPoint->coords[0],
+		selectedPoint->coords[1] - 0.1,
+		selectedPoint->coords[2],
+		selectedPoint->coords[3],
+	}, .color = {255, 0, 0, 255}};
+
+	point pZ = (point){.coords = {
+		selectedPoint->coords[0],
+		selectedPoint->coords[1],
+		selectedPoint->coords[2] + 0.1,
+		selectedPoint->coords[3],
+	}, .color = {0, 0, 255, 255}};
+
+	multMatByVec(transformMat, pOrigin.coords);
+	turnScreenCoordToVecCoord(pOrigin.coords, SCREEN_W, SCREEN_H);
+	multMatByVec(transformMat, pX.coords);
+	turnScreenCoordToVecCoord(pX.coords, SCREEN_W, SCREEN_H);
+	multMatByVec(transformMat, pY.coords);
+	turnScreenCoordToVecCoord(pY.coords, SCREEN_W, SCREEN_H);
+	multMatByVec(transformMat, pZ.coords);
+	turnScreenCoordToVecCoord(pZ.coords, SCREEN_W, SCREEN_H);
+
+	drawLineCustom(pOrigin, pX);
+	drawLineCustom(pOrigin, pY);
+	drawLineCustom(pOrigin, pZ);
+
 }
