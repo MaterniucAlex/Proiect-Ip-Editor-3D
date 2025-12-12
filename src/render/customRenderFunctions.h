@@ -119,6 +119,7 @@ void step_point(point *p, float slope_x, float slope_z) {
 
 void fill_flat_bottom_triangle(point v1, point v2, point v3) {
 
+	if (v2.coords[1] - v1.coords[1] < 1) return;
     float inv_slope1 = (float)(v2.coords[0] - v1.coords[0]) / (v2.coords[1] - v1.coords[1]);
     float inv_slope2 = (float)(v3.coords[0] - v1.coords[0]) / (v3.coords[1] - v1.coords[1]);
 
@@ -129,7 +130,7 @@ void fill_flat_bottom_triangle(point v1, point v2, point v3) {
     point rightPoint = v1;
 
     // 3. Iterate Top to Bottom
-    for (int scanline_y = (int)v1.coords[1]; scanline_y <= (int)v2.coords[1]; scanline_y++) {
+    for (int scanline_y = (int)v1.coords[1]; scanline_y < (int)v2.coords[1]; scanline_y++) {
 	float leftProgress = (leftPoint.coords[1] - v1.coords[1]) / (v2.coords[1] - v1.coords[1]);
 	leftPoint.color[0] = v1.color[0] + (v2.color[0] - v1.color[0]) * leftProgress;
 	leftPoint.color[1] = v1.color[1] + (v2.color[1] - v1.color[1]) * leftProgress;
@@ -163,7 +164,7 @@ void fill_flat_top_triangle(point v1, point v2, point v3) {
     point rightPoint = v2;
 
     // Iterate Top to Bottom
-    for (int scanline_y = (int)v1.coords[1]; scanline_y <= (int)v3.coords[1]; scanline_y++) {
+    for (int scanline_y = (int)v1.coords[1]; scanline_y < (int)v3.coords[1]; scanline_y++) {
 
 	float leftProgress = (leftPoint.coords[1] - v1.coords[1]) / (v3.coords[1] - v1.coords[1]);
 	leftPoint.color[0] = v1.color[0] + (v3.color[0] - v1.color[0]) * leftProgress;
@@ -203,6 +204,7 @@ void draw_filled_triangle(point v1, point v2, point v3) {
         v4.coords[0] = v1.coords[0] + ((v3.coords[0] - v1.coords[0]) * t);
         v4.coords[1] = v2.coords[1]; // IMPORTANT: Explicitly set Y
         v4.coords[2] = v1.coords[2] + ((v3.coords[2] - v1.coords[2]) * t);
+	v4.coords[3] = v2.coords[3];
 
 	v4.color[0] = v1.color[0] + (v3.color[0] - v1.color[0]) * t;
 	v4.color[1] = v1.color[1] + (v3.color[1] - v1.color[1]) * t;
