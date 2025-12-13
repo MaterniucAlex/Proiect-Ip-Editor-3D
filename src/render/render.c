@@ -9,6 +9,7 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <stdio.h>
 
 void renderObject(object *object, SDL_Renderer *renderer);
 
@@ -54,6 +55,7 @@ void render()
 }
 
 void drawSelectedPoint(mat4 transformMat);
+bool isInside(point pt, point v1, point v2, point v3);
 void renderObject(object *object, SDL_Renderer *renderer)
 {
 	mat4 transformMat;
@@ -80,7 +82,12 @@ void renderObject(object *object, SDL_Renderer *renderer)
 	for (int i = 0; i < (object->nextPointId - object->nextPointId % 3); i+=3)
 	{
 		if (object->pointId[i + 0] == p2.pointId)
+		{
 			p1 = p2;
+			p1.color[0] = object->points[object->pointId[i + 0]].color[0];
+			p1.color[1] = object->points[object->pointId[i + 0]].color[1];
+			p1.color[2] = object->points[object->pointId[i + 0]].color[2];
+		}
 		else
 		{
 			p1 = object->points[object->pointId[i + 0]];
@@ -89,7 +96,12 @@ void renderObject(object *object, SDL_Renderer *renderer)
 		}
 
 		if (object->pointId[i + 1] == p3.pointId)
+		{
 			p2 = p3;
+			p2.color[0] = object->points[object->pointId[i + 1]].color[0];
+			p2.color[1] = object->points[object->pointId[i + 1]].color[1];
+			p2.color[2] = object->points[object->pointId[i + 1]].color[2];
+		}
 		else
 		{
 			p2 = object->points[object->pointId[i + 1]];
@@ -102,7 +114,23 @@ void renderObject(object *object, SDL_Renderer *renderer)
 		turnScreenCoordToVecCoord(p3.coords, SCREEN_W, SCREEN_H);
 
 		if (!wireframeRender)
+		{
+			if (isInside((point){{mouseX, mouseY, 0, 0}}, p1, p2, p3))
+			{
+				p1.color[0] += 100;
+				p1.color[1] += 100;
+				p1.color[1] += 100;
+
+				p2.color[0] += 100;
+				p2.color[1] += 100;
+				p2.color[1] += 100;
+
+				p3.color[0] += 100;
+				p3.color[1] += 100;
+				p3.color[1] += 100;
+			}
 			draw_filled_triangle(p1, p2, p3);
+		}
 		else
 		{
 			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
@@ -176,4 +204,22 @@ void drawSelectedPoint(mat4 transformMat)
 	drawLineCustom(pOrigin, pY);
 	drawLineCustom(pOrigin, pZ);
 
+}
+
+float sign(point p, point a, point b) {
+    return (p.coords[0] - b.coords[0]) * (a.coords[1] - b.coords[1]) - (a.coords[0] - b.coords[0]) * (p.coords[1] - b.coords[1]);
+}
+
+bool isInside(point pt, point v1, point v2, point v3) {
+    float d1, d2, d3;
+    bool has_neg, has_pos;
+
+    d1 = sign(pt, v1, v2);
+    d2 = sign(pt, v2, v3);
+    d3 = sign(pt, v3, v1);
+
+    has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+    has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+    return !(has_neg && has_pos);
 }
