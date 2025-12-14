@@ -62,6 +62,7 @@ void update()
 	buttonsUpdated += updateButton(pointMinusY);
 	buttonsUpdated += updateButton(pointPlusZ);
 	buttonsUpdated += updateButton(pointMinusZ);
+	buttonsUpdated += updateButton(createPoint);
 	mouseClicked = false;
 
 	if (buttonsUpdated > 0)
@@ -96,6 +97,13 @@ void selectPrevPoint()
 }
 
 const float changeVal = 0.01;
+
+void pointCreate()
+{
+	if (selectedPoint->pointId >= exObj.nextPointId - 1) return;
+	addPointToObject(&exObj, (point){{0.f, 0.f, 0.f}, {255, 255, 255, 255}});
+	createTriangleFromPointIds(&exObj, exObj.nextPointInList-1, selectedPoint->pointId, selectedPoint->pointId-1);
+}
 
 void plusPointX()
 {

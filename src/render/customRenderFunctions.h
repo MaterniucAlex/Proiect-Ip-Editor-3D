@@ -119,7 +119,6 @@ void step_point(point *p, float slope_x, float slope_z) {
 
 void fill_flat_bottom_triangle(point v1, point v2, point v3) {
 
-	if (v2.coords[1] - v1.coords[1] < 1) return;
     float inv_slope1 = (float)(v2.coords[0] - v1.coords[0]) / (v2.coords[1] - v1.coords[1]);
     float inv_slope2 = (float)(v3.coords[0] - v1.coords[0]) / (v3.coords[1] - v1.coords[1]);
 

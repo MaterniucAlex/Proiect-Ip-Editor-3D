@@ -46,6 +46,8 @@ void init()
 	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, 360, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
 	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, 360, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
 
+	createPoint = createButton(BUTTON_CLICK, (SDL_FRect){130, 360, 50, 50}, (SDL_FRect){0,   300, 100, 100}, pointCreate);
+
 	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
 	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
 	addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
