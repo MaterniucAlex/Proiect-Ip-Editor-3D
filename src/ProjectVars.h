@@ -26,6 +26,10 @@ vec4 cameraPosition = {0.f, 0.f, -1.f};
 vec4 cameraTarget   = {0.f, 0.f, 0.f};
 vec4 cameraUp 	    = {0.f, 1.f, 0.f};
 
+mat4 objScalingMat;
+mat4 objTranslateMat;
+mat4 objRotateMat;
+
 float cameraXangle = 0.5;
 float cameraYangle = -0.5;
 
@@ -58,6 +62,10 @@ Button pointPlusY;
 Button pointMinusY;
 Button pointPlusZ;
 Button pointMinusZ;
+
+Button rotateObjButton;
+Button translateObjButton;
+Button scaleObjButton;
 
 Button loadObjButton;
 Button saveObjButton;

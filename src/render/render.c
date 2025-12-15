@@ -9,8 +9,9 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <stdio.h>
 
-void renderObject(object *object, SDL_Renderer *renderer);
+void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat);
 
 void render()
 {
@@ -21,8 +22,15 @@ void render()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	renderObject(&levelFloor, renderer);
-	renderObject(&exObj, renderer);
+	mat4 transformMat;
+	initScalingMatrix(transformMat, 1, 1, 1);
+	renderObject(&levelFloor, renderer, transformMat);
+
+	copyToMat(transformMat, objScalingMat);
+	multMatByLeftMat(transformMat, objTranslateMat);
+	multMatByLeftMat(transformMat, objRotateMat);
+
+	renderObject(&exObj, renderer, transformMat);
 
 	///////////////////////////
 
@@ -56,17 +64,9 @@ void render()
 }
 
 void drawSelectedPoint(mat4 transformMat);
-void renderObject(object *object, SDL_Renderer *renderer)
+void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 {
-	mat4 transformMat;
 	mat4 calcMat;
-	initScalingMatrix(transformMat, 1, 1, 1);
-
-	//initRotationalMatrix(calcMat, 0.f, SDL_GetTicks() / 500.0f, 0.f);
-	//multMatByLeftMat(transformMat, calcMat);
-
-	//initTranslationalMatrix(calcMat, 0.5, -0.5, 0);
-	//multMatByLeftMat(transformMat, calcMat);
 
 	initLookAtMatrix(calcMat, cameraPosition, cameraTarget, cameraUp);
 	multMatByLeftMat(transformMat, calcMat);

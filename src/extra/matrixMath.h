@@ -234,21 +234,20 @@ void initLookAtMatrix(mat4 mat, vec4 position, vec4 target, vec4 upVector)
   vecCrossProduct(cameraUp, multVec);
   normalizeVector(cameraUp);
 
-  initScalingMatrixS(mat, 1);
-  mat[0 * 4 + 0] = cameraRight[0];
-  mat[0 * 4 + 1] = cameraRight[1]; // U
-  mat[0 * 4 + 2] = cameraRight[2];
-
-  mat[1 * 4 + 0] = cameraUp[0];
-  mat[1 * 4 + 1] = cameraUp[1]; // V
-  mat[1 * 4 + 2] = cameraUp[2];
-
-  mat[2 * 4 + 0] = cameraDirection[0];
-  mat[2 * 4 + 1] = cameraDirection[1]; // N
-  mat[2 * 4 + 2] = cameraDirection[2];
-
   mat4 mult;
-  copyToMat(mult, mat);
+  initScalingMatrixS(mult, 1);
+  mult[0 * 4 + 0] = cameraRight[0];
+  mult[0 * 4 + 1] = cameraRight[1]; // U
+  mult[0 * 4 + 2] = cameraRight[2];
+
+  mult[1 * 4 + 0] = cameraUp[0];
+  mult[1 * 4 + 1] = cameraUp[1]; // V
+  mult[1 * 4 + 2] = cameraUp[2];
+
+  mult[2 * 4 + 0] = cameraDirection[0];
+  mult[2 * 4 + 1] = cameraDirection[1]; // N
+  mult[2 * 4 + 2] = cameraDirection[2];
+
   initTranslationalMatrix(mat, -position[0], -position[1], -position[2]);
   multMatByLeftMat(mat, mult);
 

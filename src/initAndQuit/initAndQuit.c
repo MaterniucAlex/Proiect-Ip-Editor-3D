@@ -6,6 +6,7 @@
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <stdio.h>
+#include <string.h>
 
 int loadObj();
 void init()
@@ -55,15 +56,15 @@ void init()
 	{
 		initEmptyObject(&exObj);
 
-		addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
-		addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
-		addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
-		addPointToObject(&exObj, (point){{ 0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTR
+		addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2, 1.f}, {255, 0  , 0  , 255}}); //BBL
+		addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2, 1.f}, {255, 0  , 0  , 255}}); //BBR
+		addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2, 1.f}, {255, 0  , 0  , 255}}); //BTL
+		addPointToObject(&exObj, (point){{ 0.2,  0.2, -0.2, 1.f}, {255, 0  , 0  , 255}}); //BTR
 
-		addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //FBL
-		addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //FBR
-		addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //FTL
-		addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //FTR
+		addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2, 1.f}, {0  , 0  , 255, 255}}); //FBL
+		addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2, 1.f}, {0  , 0  , 255, 255}}); //FBR
+		addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2, 1.f}, {0  , 0  , 255, 255}}); //FTL
+		addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2, 1.f}, {0  , 0  , 255, 255}}); //FTR
 
 		createTriangleFromPointIds(&exObj, 0, 1, 2);
 		createTriangleFromPointIds(&exObj, 1, 2, 3);
@@ -76,14 +77,18 @@ void init()
 
 		createTriangleFromPointIds(&exObj, 0, 2, 4);
 		createTriangleFromPointIds(&exObj, 2, 4, 6);
+
+		initScalingMatrix(objScalingMat, 1, 1, 1);
+		initTranslationalMatrix(objTranslateMat, 0, 0, 0);
+		initRotationalMatrix(objRotateMat, 0, 0, 0);
 	}
 	selectedPoint = &exObj.points[0];
 
 	initEmptyObject(&levelFloor);
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}});
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {0  , 0  , 255, 255}});
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {0  , 255, 0  , 255}});
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}});
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0, 1}, {255, 0  , 0  , 255}});
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0, 1}, {0  , 0  , 255, 255}});
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0, 1}, {0  , 255, 0  , 255}});
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0, 1}, {255, 255, 255, 255}});
 
 	createTriangleFromPointIds(&levelFloor, 0, 1, 2);
 	createTriangleFromPointIds(&levelFloor, 1, 2, 3);
@@ -116,7 +121,15 @@ int loadObj()
 
 	char buffer[4];
 	fread(buffer, sizeof(char) * 3, 1, input);
+	if (strcmp(buffer, "obj") != 0)
+	{
+		fclose(input);
+		return 0;
+	}
 	fread(&exObj, sizeof(object), 1, input);
+	fread(objScalingMat, sizeof(mat4), 1, input);
+	fread(objRotateMat, sizeof(mat4), 1, input);
+	fread(objTranslateMat, sizeof(mat4), 1, input);
 	fclose(input);
 	return 1;
 }
@@ -127,6 +140,9 @@ void saveObj()
 
 	fwrite("obj", sizeof(char) * 3, 1, output);
 	fwrite(&exObj, sizeof(object), 1, output);
+	fwrite(objScalingMat, sizeof(mat4), 1, output);
+	fwrite(objRotateMat, sizeof(mat4), 1, output);
+	fwrite(objTranslateMat, sizeof(mat4), 1, output);
 
 	fclose(output);
 }

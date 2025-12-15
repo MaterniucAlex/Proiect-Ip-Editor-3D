@@ -153,7 +153,12 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 	    fread(&buffer, sizeof(char) * 3, 1, input);
 	    buffer[3] = '\0';
 	    if (strcmp(buffer, "obj") == 0)
+	    {
 		    fread(&exObj, sizeof(object), 1, input);
+		    fread(objScalingMat, sizeof(mat4), 1, input);
+		    fread(objRotateMat, sizeof(mat4), 1, input);
+		    fread(objTranslateMat, sizeof(mat4), 1, input);
+	    }
     }
     if (mode == 'S')
     {
@@ -162,6 +167,9 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 
 	    fwrite("obj", sizeof(char) * 3, 1, input);
 	    fwrite(&exObj, sizeof(object), 1, input);
+	    fwrite(objScalingMat, sizeof(mat4), 1, input);
+	    fwrite(objRotateMat, sizeof(mat4), 1, input);
+	    fwrite(objTranslateMat, sizeof(mat4), 1, input);
     }
 	    fclose(input);
 }
