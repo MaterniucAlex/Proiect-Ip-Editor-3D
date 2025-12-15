@@ -60,6 +60,7 @@ Button pointPlusZ;
 Button pointMinusZ;
 
 Button loadObjButton;
+Button saveObjButton;
 
 point *selectedPoint;
 int pointX;

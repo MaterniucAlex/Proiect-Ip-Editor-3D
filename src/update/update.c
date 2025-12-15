@@ -67,6 +67,7 @@ void update()
 	buttonsUpdated += updateButton(pointMinusZ);
 
 	buttonsUpdated += updateButton(loadObjButton);
+	buttonsUpdated += updateButton(saveObjButton);
 	mouseClicked = false;
 
 	if (buttonsUpdated > 0)
@@ -132,34 +133,48 @@ void minusPointZ()
 	selectedPoint->coords[2] -= changeVal;
 }
 
+char mode = 'L';
 void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, int filter) {
     if (!filelist) {
         printf("Error: %s\n", SDL_GetError());
         return;
     }
 
-    if (!*filelist) {
-        printf("User canceled the dialog.\n");
-    } else {
-        printf("User selected:\n");
-        // filelist is a NULL-terminated array of strings
+    if (!*filelist) return;
 
-	FILE *input = fopen(filelist[0], "rb");
-	if (input == NULL) return;
+    FILE *input;
 
-	char buffer[4];
+    if (mode == 'L')
+    {
+	    input = fopen(filelist[0], "rb");
+	    if (input == NULL) return;
 
-	fread(&buffer, sizeof(char) * 3, 1, input);
-	if (strcmp(buffer, "obj") == 0)
-		fread(&exObj, sizeof(object), 1, input);
-	fclose(input);
+	    char buffer[4];
+	    fread(&buffer, sizeof(char) * 3, 1, input);
+	    buffer[3] = '\0';
+	    if (strcmp(buffer, "obj") == 0)
+		    fread(&exObj, sizeof(object), 1, input);
     }
-    
-    // Note: You do not need to free 'filelist', SDL handles it automatically.
+    if (mode == 'S')
+    {
+	    input = fopen(filelist[0], "wb");
+	    if (input == NULL) return;
+
+	    fwrite("obj", sizeof(char) * 3, 1, input);
+	    fwrite(&exObj, sizeof(object), 1, input);
+    }
+	    fclose(input);
 }
 
 void objLoad()
 {
+	mode = 'L';
 	SDL_ShowOpenFileDialog(FileDialogCallback, NULL, window, NULL, 0, SDL_GetBasePath(), false);
+}
+
+void objSave()
+{
+	mode = 'S';
+	SDL_ShowSaveFileDialog(FileDialogCallback, NULL, window, NULL, 0, SDL_GetBasePath());
 }
 #endif
