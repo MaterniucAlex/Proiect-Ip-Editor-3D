@@ -5,6 +5,9 @@
 #include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
+#include <stdio.h>
+
+int loadObj();
 void init()
 {
 	SDL_Init(SDL_INIT_VIDEO);
@@ -31,10 +34,9 @@ void init()
 		}
 	}
 
-	initEmptyObject(&exObj);
 
 	//BUTTONS
-	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 50, 50}, (SDL_FRect){0, 0, 100, 100}, toggleWireframe);
+	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, (SDL_FRect){200, 200, 200, 100}, toggleWireframe);
 
 	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, 540, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
 	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, 540, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
@@ -46,35 +48,42 @@ void init()
 	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, 360, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
 	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, 360, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
 
-	addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
-	addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
-	addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
-	addPointToObject(&exObj, (point){{ 0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTR
-	
-	addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //BBL
-	addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //BBR
-	addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //BTL
-	addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //BTR
+	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 10, 100, 50}, (SDL_FRect){200, 0  , 200, 100}, objLoad);
+	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 70, 100, 50}, (SDL_FRect){200, 100, 200, 100}, objSave);
 
-	createTriangleFromPointIds(&exObj, 0, 1, 2);
-	createTriangleFromPointIds(&exObj, 1, 2, 3);
+	if (!loadObj())
+	{
+		initEmptyObject(&exObj);
 
-	createTriangleFromPointIds(&exObj, 4, 5, 6);
-	createTriangleFromPointIds(&exObj, 5, 6, 7);
+		addPointToObject(&exObj, (point){{-0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBL
+		addPointToObject(&exObj, (point){{ 0.2, -0.2, -0.2}, {255, 0  , 0  , 255}}); //BBR
+		addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
+		addPointToObject(&exObj, (point){{ 0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTR
 
-	createTriangleFromPointIds(&exObj, 1, 3, 5);
-	createTriangleFromPointIds(&exObj, 3, 5, 7);
+		addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //FBL
+		addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //FBR
+		addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //FTL
+		addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //FTR
 
-	createTriangleFromPointIds(&exObj, 0, 2, 4);
-	createTriangleFromPointIds(&exObj, 2, 4, 6);
+		createTriangleFromPointIds(&exObj, 0, 1, 2);
+		createTriangleFromPointIds(&exObj, 1, 2, 3);
 
+		createTriangleFromPointIds(&exObj, 4, 5, 6);
+		createTriangleFromPointIds(&exObj, 5, 6, 7);
+
+		createTriangleFromPointIds(&exObj, 1, 3, 5);
+		createTriangleFromPointIds(&exObj, 3, 5, 7);
+
+		createTriangleFromPointIds(&exObj, 0, 2, 4);
+		createTriangleFromPointIds(&exObj, 2, 4, 6);
+	}
 	selectedPoint = &exObj.points[0];
 
 	initEmptyObject(&levelFloor);
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}}); //BBL
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {0  , 0  , 255, 255}}); //BBR
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {0  , 255, 0  , 255}}); //BTL
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}}); //BTR
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}});
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {0  , 0  , 255, 255}});
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {0  , 255, 0  , 255}});
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}});
 
 	createTriangleFromPointIds(&levelFloor, 0, 1, 2);
 	createTriangleFromPointIds(&levelFloor, 1, 2, 3);
@@ -84,8 +93,10 @@ void init()
 
 }
 
+void saveObj();
 void quit()
 {
+	saveObj();
 	free(pixels);
 	free(depthBuffer);
 	SDL_DestroyCursor(normalCursor);
@@ -95,4 +106,27 @@ void quit()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
+}
+
+int loadObj()
+{
+	FILE *input = fopen("assets/object.me", "rb");
+	if (input == NULL)
+		return 0;
+
+	char buffer[4];
+	fread(buffer, sizeof(char) * 3, 1, input);
+	fread(&exObj, sizeof(object), 1, input);
+	fclose(input);
+	return 1;
+}
+
+void saveObj()
+{
+	FILE *output = fopen("assets/object.me", "wb");
+
+	fwrite("obj", sizeof(char) * 3, 1, output);
+	fwrite(&exObj, sizeof(object), 1, output);
+
+	fclose(output);
 }
