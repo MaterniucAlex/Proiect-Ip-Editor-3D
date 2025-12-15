@@ -57,10 +57,10 @@ void init()
 		addPointToObject(&exObj, (point){{-0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTL
 		addPointToObject(&exObj, (point){{ 0.2,  0.2, -0.2}, {255, 0  , 0  , 255}}); //BTR
 
-		addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //BBL
-		addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //BBR
-		addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //BTL
-		addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //BTR
+		addPointToObject(&exObj, (point){{-0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //FBL
+		addPointToObject(&exObj, (point){{ 0.2, -0.2, 0.2}, {0  , 0  , 255, 255}}); //FBR
+		addPointToObject(&exObj, (point){{-0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //FTL
+		addPointToObject(&exObj, (point){{ 0.2,  0.2, 0.2}, {0  , 0  , 255, 255}}); //FTR
 
 		createTriangleFromPointIds(&exObj, 0, 1, 2);
 		createTriangleFromPointIds(&exObj, 1, 2, 3);
@@ -73,15 +73,14 @@ void init()
 
 		createTriangleFromPointIds(&exObj, 0, 2, 4);
 		createTriangleFromPointIds(&exObj, 2, 4, 6);
-
-		selectedPoint = &exObj.points[0];
 	}
+	selectedPoint = &exObj.points[0];
 
 	initEmptyObject(&levelFloor);
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}}); //BBL
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {0  , 0  , 255, 255}}); //BBR
-	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {0  , 255, 0  , 255}}); //BTL
-	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}}); //BTR
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0}, {255, 0  , 0  , 255}});
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5, -1.0}, {0  , 0  , 255, 255}});
+	addPointToObject(&levelFloor, (point){{-1.0, 0.5,  1.0}, {0  , 255, 0  , 255}});
+	addPointToObject(&levelFloor, (point){{ 1.0, 0.5,  1.0}, {255, 255, 255, 255}});
 
 	createTriangleFromPointIds(&levelFloor, 0, 1, 2);
 	createTriangleFromPointIds(&levelFloor, 1, 2, 3);
@@ -109,7 +108,7 @@ void quit()
 int loadObj()
 {
 	FILE *input = fopen("assets/object.me", "rb");
-	if (!input)
+	if (input == NULL)
 		return 0;
 
 	fread(&exObj, sizeof(object), 1, input);
