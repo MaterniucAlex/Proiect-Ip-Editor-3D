@@ -48,6 +48,8 @@ void init()
 	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, 360, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
 	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, 360, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
 
+	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 10, 50, 50}, (SDL_FRect){0,   300, 100, 100}, objLoad);
+
 	if (!loadObj())
 	{
 		initEmptyObject(&exObj);
@@ -111,6 +113,8 @@ int loadObj()
 	if (input == NULL)
 		return 0;
 
+	char buffer[4];
+	fread(buffer, sizeof(char) * 3, 1, input);
 	fread(&exObj, sizeof(object), 1, input);
 	fclose(input);
 	return 1;
@@ -120,6 +124,7 @@ void saveObj()
 {
 	FILE *output = fopen("assets/object.me", "wb");
 
+	fwrite("obj", sizeof(char) * 3, 1, output);
 	fwrite(&exObj, sizeof(object), 1, output);
 
 	fclose(output);

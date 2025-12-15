@@ -39,6 +39,7 @@ void render()
 	renderButton(&pointMinusY);
 	renderButton(&pointPlusZ);
 	renderButton(&pointMinusZ);
+	renderButton(&loadObjButton);
 
 	////
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);

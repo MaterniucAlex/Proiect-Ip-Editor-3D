@@ -59,6 +59,8 @@ Button pointMinusY;
 Button pointPlusZ;
 Button pointMinusZ;
 
+Button loadObjButton;
+
 point *selectedPoint;
 int pointX;
 int pointY;
