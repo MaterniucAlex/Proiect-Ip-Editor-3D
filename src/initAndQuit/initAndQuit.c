@@ -52,6 +52,8 @@ void init()
 	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 10, 100, 50}, (SDL_FRect){200, 0  , 200, 100}, objLoad);
 	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 70, 100, 50}, (SDL_FRect){200, 100, 200, 100}, objSave);
 
+	translateX = createSlider(-1.0, 1.0, (SDL_FRect){600, 200, 100, 10});
+
 	if (!loadObj())
 	{
 		initEmptyObject(&exObj);

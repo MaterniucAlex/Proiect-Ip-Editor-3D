@@ -68,7 +68,11 @@ void update()
 
 	buttonsUpdated += updateButton(loadObjButton);
 	buttonsUpdated += updateButton(saveObjButton);
+
 	mouseClicked = false;
+	updateSlider(&translateX);
+
+	objTranslateMat[3] = translateX.curVal;
 
 	if (buttonsUpdated > 0)
 		SDL_SetCursor(pointerCursor);

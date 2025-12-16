@@ -51,6 +51,7 @@ object exObj;
 object levelFloor;
 
 #include "extra/button.h"
+#include "extra/slider.h"
 
 Button wireframeButton;
 Button nextPoint;
@@ -71,6 +72,8 @@ Button loadObjButton;
 Button saveObjButton;
 
 point *selectedPoint;
+
+Slider translateX;
 int pointX;
 int pointY;
 

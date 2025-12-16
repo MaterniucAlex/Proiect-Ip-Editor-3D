@@ -37,6 +37,7 @@ void render()
 
 	///////////////////////////
 
+	renderSlider(&translateX);
 	renderCustomScreen();
 
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
