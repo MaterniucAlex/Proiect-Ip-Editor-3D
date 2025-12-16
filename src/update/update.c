@@ -3,6 +3,7 @@
 #include "SDL3/SDL_filesystem.h"
 #include <stdio.h>
 #include <string.h>
+#include <wchar.h>
 #ifndef UPDATE
 #define UPDATE
 
@@ -71,8 +72,18 @@ void update()
 
 	mouseClicked = false;
 	updateSlider(&translateX);
+	updateSlider(&translateY);
+	updateSlider(&translateZ);
 
-	objTranslateMat[3] = translateX.curVal;
+	updateSlider(&rotateX);
+	updateSlider(&rotateY);
+	updateSlider(&rotateZ);
+
+	objTranslateMat[0 * 4 + 3] = translateX.curVal;
+	objTranslateMat[1 * 4 + 3] = translateY.curVal;
+	objTranslateMat[2 * 4 + 3] = translateZ.curVal;
+
+	initRotationalMatrix(objRotateMat, rotateX.curVal, rotateY.curVal, rotateZ.curVal);
 
 	if (buttonsUpdated > 0)
 		SDL_SetCursor(pointerCursor);
@@ -160,8 +171,14 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 	    {
 		    fread(&exObj, sizeof(object), 1, input);
 		    fread(objScalingMat, sizeof(mat4), 1, input);
-		    fread(objRotateMat, sizeof(mat4), 1, input);
+		    fread(&rotateX.curVal, sizeof(float), 1, input);
+		    fread(&rotateY.curVal, sizeof(float), 1, input);
+		    fread(&rotateZ.curVal, sizeof(float), 1, input);
 		    fread(objTranslateMat, sizeof(mat4), 1, input);
+
+		    translateX.curVal = objTranslateMat[0 * 4 + 3];
+		    translateY.curVal = objTranslateMat[1 * 4 + 3];
+		    translateZ.curVal = objTranslateMat[2 * 4 + 3];
 	    }
     }
     if (mode == 'S')
@@ -172,7 +189,9 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 	    fwrite("obj", sizeof(char) * 3, 1, input);
 	    fwrite(&exObj, sizeof(object), 1, input);
 	    fwrite(objScalingMat, sizeof(mat4), 1, input);
-	    fwrite(objRotateMat, sizeof(mat4), 1, input);
+	    fwrite(&rotateX.curVal, sizeof(float), 1, input);
+	    fwrite(&rotateY.curVal, sizeof(float), 1, input);
+	    fwrite(&rotateZ.curVal, sizeof(float), 1, input);
 	    fwrite(objTranslateMat, sizeof(mat4), 1, input);
     }
 	    fclose(input);

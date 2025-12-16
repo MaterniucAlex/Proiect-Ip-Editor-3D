@@ -53,6 +53,12 @@ void init()
 	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 70, 100, 50}, (SDL_FRect){200, 100, 200, 100}, objSave);
 
 	translateX = createSlider(-1.0, 1.0, (SDL_FRect){600, 200, 100, 10});
+	translateY = createSlider(-1.0, 1.0, (SDL_FRect){600, 225, 100, 10});
+	translateZ = createSlider(-1.0, 1.0, (SDL_FRect){600, 250, 100, 10});
+
+	rotateX = createSlider(-1.0, 1.0, (SDL_FRect){600, 300, 100, 10});
+	rotateY = createSlider(-1.0, 1.0, (SDL_FRect){600, 325, 100, 10});
+	rotateZ = createSlider(-1.0, 1.0, (SDL_FRect){600, 350, 100, 10});
 
 	if (!loadObj())
 	{
@@ -85,6 +91,7 @@ void init()
 		initRotationalMatrix(objRotateMat, 0, 0, 0);
 	}
 	selectedPoint = &exObj.points[0];
+
 
 	initEmptyObject(&levelFloor);
 	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0, 1}, {255, 0  , 0  , 255}});
@@ -123,6 +130,7 @@ int loadObj()
 
 	char buffer[4];
 	fread(buffer, sizeof(char) * 3, 1, input);
+	buffer[3] = 0;
 	if (strcmp(buffer, "obj") != 0)
 	{
 		fclose(input);
@@ -130,9 +138,16 @@ int loadObj()
 	}
 	fread(&exObj, sizeof(object), 1, input);
 	fread(objScalingMat, sizeof(mat4), 1, input);
-	fread(objRotateMat, sizeof(mat4), 1, input);
+	fread(&rotateX.curVal, sizeof(float), 1, input);
+	fread(&rotateY.curVal, sizeof(float), 1, input);
+	fread(&rotateZ.curVal, sizeof(float), 1, input);
 	fread(objTranslateMat, sizeof(mat4), 1, input);
 	fclose(input);
+
+	translateX.curVal = objTranslateMat[0 * 4 + 3];
+	translateY.curVal = objTranslateMat[1 * 4 + 3];
+	translateZ.curVal = objTranslateMat[2 * 4 + 3];
+
 	return 1;
 }
 
@@ -143,7 +158,9 @@ void saveObj()
 	fwrite("obj", sizeof(char) * 3, 1, output);
 	fwrite(&exObj, sizeof(object), 1, output);
 	fwrite(objScalingMat, sizeof(mat4), 1, output);
-	fwrite(objRotateMat, sizeof(mat4), 1, output);
+	fwrite(&rotateX.curVal, sizeof(float), 1, output);
+	fwrite(&rotateY.curVal, sizeof(float), 1, output);
+	fwrite(&rotateZ.curVal, sizeof(float), 1, output);
 	fwrite(objTranslateMat, sizeof(mat4), 1, output);
 
 	fclose(output);

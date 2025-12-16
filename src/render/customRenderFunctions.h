@@ -1,4 +1,5 @@
 #pragma once
+#include "SDL3/SDL_rect.h"
 #include <SDL3/SDL_render.h>
 #include <stdio.h>
 #ifndef CUSTOM_RENDER
@@ -23,6 +24,17 @@ void renderCircle(int x, int y, int radius)
 			pixels[((int)(y - cosf(radians) * r) * SCREEN_W + (int)(x + sinf(radians) * r))] = color;
 
 	}
+}
+
+void renderRect(SDL_FRect rect)
+{
+	unsigned char r, g, b, a;
+	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+	Uint32 color = (a << 24) | (r << 16) | (g << 8) | b;
+
+	for(int x = 0; x < rect.w; x++)
+		for(int y = 0; y < rect.h; y++)
+			pixels[(int)(rect.x + x) + (int)(rect.y + y) * SCREEN_W] = color;
 }
 
 void swapPoints(point *p1, point *p2)
@@ -126,6 +138,66 @@ void drawLineCustom(point p1, point p2)
             
             depthBuffer[index] = curZ;
         }
+    }
+}
+
+void drawLineCustomT(point p1, point p2, int thicness)
+{
+    unsigned char r, g, b, a;
+    SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+
+    float x1 = (float)p1.coords[0];
+    float y1 = (float)p1.coords[1];
+    float z1 = p1.coords[2];
+
+    float x2 = (float)p2.coords[0];
+    float y2 = (float)p2.coords[1];
+    float z2 = p2.coords[2];
+
+    float xDist = x2 - x1;
+    float yDist = y2 - y1;
+    float zDist = z2 - z1;
+    
+    float totalDistance = sqrtf(xDist * xDist + yDist * yDist);
+    
+    if (totalDistance == 0) return;
+
+    float xStep = xDist / totalDistance;
+    float yStep = yDist / totalDistance;
+    float zStep = zDist / totalDistance;
+
+    float rStep = (p2.color[0] - p1.color[0]) / totalDistance;
+    float gStep = (p2.color[1] - p1.color[1]) / totalDistance;
+    float bStep = (p2.color[2] - p1.color[2]) / totalDistance;
+
+    for(int i = 0; i < (int)(totalDistance + 0.5f); i++)
+    {
+        int curX = (int)(x1 + xStep * i + 0.5f);
+        int curY = (int)(y1 + yStep * i + 0.5f);
+        float curZ = z1 + i * zStep;
+
+        if (curX < 0 || curX >= SCREEN_W || curY < 0 || curY >= SCREEN_H) {
+            continue;
+        }
+	for(int x = -thicness / 2; x <= thicness / 2; x++)
+	{
+		for(int y = -thicness / 2; y <= thicness / 2; y++)
+		{
+			int index = curX + x + (curY + y) * SCREEN_W;
+
+			if (curZ < depthBuffer[index]) 
+			{
+				Uint32 color = (255 << 24) | 
+					((unsigned char)(p1.color[0] + i * rStep) << 16) | 
+					((unsigned char)(p1.color[1] + i * gStep) << 8) | 
+					((unsigned char)(p1.color[2] + i * bStep));
+				pixels[index] = color; // Single memory write!
+
+				depthBuffer[index] = curZ;
+		}
+		}
+	}
+
     }
 }
 

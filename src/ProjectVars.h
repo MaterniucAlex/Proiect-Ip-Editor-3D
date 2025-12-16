@@ -74,6 +74,12 @@ Button saveObjButton;
 point *selectedPoint;
 
 Slider translateX;
+Slider translateY;
+Slider translateZ;
+
+Slider rotateX;
+Slider rotateY;
+Slider rotateZ;
 int pointX;
 int pointY;
 

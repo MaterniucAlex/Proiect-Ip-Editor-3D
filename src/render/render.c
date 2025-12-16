@@ -12,6 +12,7 @@
 #include <stdio.h>
 
 void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat);
+void drawSelectedPoint(mat4 transformMat);
 
 void render()
 {
@@ -27,17 +28,31 @@ void render()
 	renderObject(&levelFloor, renderer, transformMat);
 
 	copyToMat(transformMat, objScalingMat);
-	multMatByLeftMat(transformMat, objTranslateMat);
 	multMatByLeftMat(transformMat, objRotateMat);
+	multMatByLeftMat(transformMat, objTranslateMat);
 
 	renderObject(&exObj, renderer, transformMat);
+	drawSelectedPoint(transformMat);
 
 	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
 	renderCircle(pointX, pointY, 5);
 
 	///////////////////////////
 
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	renderSlider(&translateX);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	renderSlider(&translateY);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+	renderSlider(&translateZ);
+
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	renderSlider(&rotateX);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	renderSlider(&rotateY);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+	renderSlider(&rotateZ);
+
 	renderCustomScreen();
 
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
@@ -62,7 +77,6 @@ void render()
 	SDL_Delay(waitTime > 0 ? waitTime : 0);
 }
 
-void drawSelectedPoint(mat4 transformMat);
 void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 {
 	mat4 calcMat;
@@ -130,8 +144,6 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 
 	}
 
-	drawSelectedPoint(transformMat);
-
 }
 
 void drawSelectedPoint(mat4 transformMat)
@@ -140,29 +152,29 @@ void drawSelectedPoint(mat4 transformMat)
 		selectedPoint->coords[0],
 		selectedPoint->coords[1],
 		selectedPoint->coords[2],
-		selectedPoint->coords[3],
+		-999,
 	}, .color = {0, 255, 255, 255}};
 
 	point pX = (point){.coords = {
 		selectedPoint->coords[0] + 0.1,
 		selectedPoint->coords[1],
 		selectedPoint->coords[2],
-		selectedPoint->coords[3],
-	}, .color = {0, 255, 0, 255}};
+		-999,
+	}, .color = {125, 0, 0, 255}};
 
 	point pY = (point){.coords = {
 		selectedPoint->coords[0],
 		selectedPoint->coords[1] - 0.1,
 		selectedPoint->coords[2],
-		selectedPoint->coords[3],
-	}, .color = {255, 0, 0, 255}};
+		-999,
+	}, .color = {0, 125, 0, 255}};
 
 	point pZ = (point){.coords = {
 		selectedPoint->coords[0],
 		selectedPoint->coords[1],
 		selectedPoint->coords[2] + 0.1,
-		selectedPoint->coords[3],
-	}, .color = {0, 0, 255, 255}};
+		-999,
+	}, .color = {0, 0, 125, 255}};
 
 	multMatByVec(transformMat, pOrigin.coords);
 	turnScreenCoordToVecCoord(pOrigin.coords, SCREEN_W, SCREEN_H);
@@ -173,8 +185,8 @@ void drawSelectedPoint(mat4 transformMat)
 	multMatByVec(transformMat, pZ.coords);
 	turnScreenCoordToVecCoord(pZ.coords, SCREEN_W, SCREEN_H);
 
-	drawLineCustom(pOrigin, pX);
-	drawLineCustom(pOrigin, pY);
-	drawLineCustom(pOrigin, pZ);
+	drawLineCustomT(pOrigin, pX, 2);
+	drawLineCustomT(pOrigin, pY, 2);
+	drawLineCustomT(pOrigin, pZ, 2);
 
 }

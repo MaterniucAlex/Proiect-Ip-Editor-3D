@@ -20,15 +20,14 @@ Slider createSlider(float minVal, float maxVal, SDL_FRect sliderArea)
 	slider.sliderArea = sliderArea;
 	slider.minVal = minVal;
 	slider.maxVal = maxVal;
-	slider.curVal = (maxVal - minVal) / 2;
+	slider.curVal = minVal + (maxVal - minVal) / 2;
 	return slider;
 
 }
 void renderSlider(Slider *slider)
 {
 	float step = (slider->maxVal - slider->minVal) / (slider->sliderArea.w);
-	SDL_SetRenderDrawColor(renderer, 200, 125, 125, 255);
-	SDL_RenderRect(renderer, &slider->sliderArea);
+	renderRect(slider->sliderArea);
 
 	float circleX = slider->sliderArea.x + (slider->curVal - slider->minVal) / step;
 	float circleY = slider->sliderArea.y + slider->sliderArea.h / 2;
