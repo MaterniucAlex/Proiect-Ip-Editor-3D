@@ -32,6 +32,9 @@ void render()
 
 	renderObject(&exObj, renderer, transformMat);
 
+	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+	renderCircle(pointX, pointY, 5);
+
 	///////////////////////////
 
 	renderCustomScreen();
@@ -51,11 +54,6 @@ void render()
 	renderButton(&saveObjButton);
 
 	////
-	SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
-	SDL_FRect rect = {pointX - 5, pointY - 5, 10, 10};
-	////
-	SDL_RenderFillRect(renderer, &rect);
-
 	SDL_RenderPresent(renderer);
 
 	int renderEnd = SDL_GetTicks();
@@ -142,7 +140,7 @@ void drawSelectedPoint(mat4 transformMat)
 		selectedPoint->coords[1],
 		selectedPoint->coords[2],
 		selectedPoint->coords[3],
-	}, .color = {0, 0, 0, 255}};
+	}, .color = {0, 255, 255, 255}};
 
 	point pX = (point){.coords = {
 		selectedPoint->coords[0] + 0.1,

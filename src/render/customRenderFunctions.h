@@ -7,6 +7,24 @@
 #include "../object/CustomObject.h"
 #include "../ProjectVars.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+void renderCircle(int x, int y, int radius)
+{
+	unsigned char r, g, b, a;
+	SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+	Uint32 color = (a << 24) | (r << 16) | (g << 8) | b;
+
+	for(int i = 0; i < 360; i+=2)
+	{
+		float radians = i * (M_PI / 180.0);
+		for(int r = 0; r < radius; r++)
+			pixels[((int)(y - cosf(radians) * r) * SCREEN_W + (int)(x + sinf(radians) * r))] = color;
+
+	}
+}
+
 void swapPoints(point *p1, point *p2)
 {
 	point aux = *p1;
