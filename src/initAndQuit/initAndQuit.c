@@ -39,8 +39,8 @@ void init()
 	//BUTTONS
 	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, (SDL_FRect){200, 200, 200, 100}, toggleWireframe);
 
-	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, 540, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
-	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, 540, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
+	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, 540, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
+	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, 540, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
 
 	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){10, 480, 50, 50}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
 	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){70, 480, 50, 50}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
