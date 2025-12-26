@@ -1,6 +1,5 @@
 #pragma once
 #include "SDL3/SDL_render.h"
-#include "SDL3/SDL_surface.h"
 #include "extra/matrixMath.h"
 #include "object/CustomObject.h"
 #include <SDL3/SDL_mouse.h>
@@ -50,8 +49,7 @@ bool isRunning = true;
 object exObj;
 object levelFloor;
 
-#include "extra/button.h"
-#include "extra/slider.h"
+#include "extra/popupMenu.h"
 
 Button wireframeButton;
 Button nextPoint;
@@ -71,15 +69,14 @@ Button scaleObjButton;
 Button loadObjButton;
 Button saveObjButton;
 
+Button toggleTranslateMenu;
+Button toggleRotateMenu;
+
 point *selectedPoint;
 
-Slider translateX;
-Slider translateY;
-Slider translateZ;
+PopupMenu translateMenu;
+PopupMenu rotateMenu;
 
-Slider rotateX;
-Slider rotateY;
-Slider rotateZ;
 int pointX;
 int pointY;
 

@@ -1,19 +1,20 @@
 #pragma once
+#ifndef BUTTON
+#define BUTTON
+
 #include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_rect.h>
 #include "../ProjectVars.h"
 #include "SDL3/SDL_render.h"
-#ifndef BUTTON
-#define BUTTON
 
 #define BUTTON_HOLD 1
 #define BUTTON_CLICK 2
 typedef struct Button {
 	
-	char type;
 	SDL_FRect buttonRect;
 	SDL_FRect textureRect;
 	void (*action)();
+	char type;
 
 } Button;
 
@@ -39,13 +40,13 @@ int isInsideButton(int x, int y, Button *btn)
 	y > btn->buttonRect.y && y < (btn->buttonRect.y + btn->buttonRect.h));
 }
 
-int updateButton(Button btn)
+int updateButton(Button *btn)
 {
-	if (isInsideButton(mouseX, mouseY, &btn))
+	if (isInsideButton(mouseX, mouseY, btn))
 	{
-		if (	(mouseHold && btn.type == BUTTON_HOLD) 	 ||
-			(mouseClicked && btn.type == BUTTON_CLICK))
-			btn.action();
+		if (	(mouseHold && btn->type == BUTTON_HOLD) 	 ||
+			(mouseClicked && btn->type == BUTTON_CLICK))
+			btn->action();
 		return 1;
 	}
 	return 0;

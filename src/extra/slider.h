@@ -1,4 +1,5 @@
 #pragma once
+#include "SDL3/SDL_pixels.h"
 #include "SDL3/SDL_rect.h"
 #include "SDL3/SDL_render.h"
 #ifndef SLIDER
@@ -9,24 +10,27 @@
 
 typedef struct Slider {
 	SDL_FRect sliderArea;
+	SDL_Color color;
 	float minVal;
 	float maxVal;
 	float curVal;
 } Slider;
 
-Slider createSlider(float minVal, float maxVal, SDL_FRect sliderArea)
+Slider createSlider(float minVal, float maxVal, SDL_FRect sliderArea, SDL_Color color)
 {
 	Slider slider;
 	slider.sliderArea = sliderArea;
 	slider.minVal = minVal;
 	slider.maxVal = maxVal;
 	slider.curVal = minVal + (maxVal - minVal) / 2;
+	slider.color = color;
 	return slider;
 
 }
 void renderSlider(Slider *slider)
 {
 	float step = (slider->maxVal - slider->minVal) / (slider->sliderArea.w);
+	SDL_SetRenderDrawColor(renderer, slider->color.r, slider->color.g, slider->color.b, slider->color.a);
 	renderRect(slider->sliderArea);
 
 	float circleX = slider->sliderArea.x + (slider->curVal - slider->minVal) / step;

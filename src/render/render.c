@@ -2,14 +2,12 @@
 #include "../object/CustomObject.h"
 #include "../extra/matrixMath.h"
 #include "customRenderFunctions.h"
-#include "SDL3_image/SDL_image.h"
 #include <SDL3/SDL_pixels.h>
 #include <SDL3/SDL_rect.h>
 #include <SDL3/SDL_render.h>
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <stdio.h>
 
 void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat);
 void drawSelectedPoint(mat4 transformMat);
@@ -40,18 +38,8 @@ void render()
 	///////////////////////////
 
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	renderSlider(&translateX);
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-	renderSlider(&translateY);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-	renderSlider(&translateZ);
-
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	renderSlider(&rotateX);
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-	renderSlider(&rotateY);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-	renderSlider(&rotateZ);
+	renderMenu(&translateMenu);
+	renderMenu(&rotateMenu);
 
 	renderCustomScreen();
 
@@ -68,6 +56,8 @@ void render()
 	renderButton(&pointMinusZ);
 	renderButton(&loadObjButton);
 	renderButton(&saveObjButton);
+	renderButton(&toggleTranslateMenu);
+	renderButton(&toggleRotateMenu);
 
 	////
 	SDL_RenderPresent(renderer);
