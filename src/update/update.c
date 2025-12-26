@@ -70,17 +70,29 @@ void update()
 	buttonsUpdated += updateButton(&loadObjButton);
 	buttonsUpdated += updateButton(&saveObjButton);
 
+	buttonsUpdated += updateButton(&toggleColorMenu);
+	buttonsUpdated += updateButton(&toggleScaleMenu);
 	buttonsUpdated += updateButton(&toggleTranslateMenu);
 	buttonsUpdated += updateButton(&toggleRotateMenu);
 
 	mouseClicked = false;
 
+	updateMenu(&colorMenu);
+	updateMenu(&scaleMenu);
 	updateMenu(&translateMenu);
 	updateMenu(&rotateMenu);
+
+	objScalingMat[0 * 4 + 0] = scaleMenu.sliderList[0].curVal;
+	objScalingMat[1 * 4 + 1] = scaleMenu.sliderList[1].curVal;
+	objScalingMat[2 * 4 + 2] = scaleMenu.sliderList[2].curVal;
 
 	objTranslateMat[0 * 4 + 3] = translateMenu.sliderList[0].curVal;
 	objTranslateMat[1 * 4 + 3] = translateMenu.sliderList[1].curVal;
 	objTranslateMat[2 * 4 + 3] = translateMenu.sliderList[2].curVal;
+
+	selectedPoint->color[0] = colorMenu.sliderList[0].curVal;
+	selectedPoint->color[1] = colorMenu.sliderList[1].curVal;
+	selectedPoint->color[2] = colorMenu.sliderList[2].curVal;
 
 	initRotationalMatrix(objRotateMat, rotateMenu.sliderList[0].curVal, rotateMenu.sliderList[1].curVal, rotateMenu.sliderList[2].curVal);
 
@@ -105,6 +117,10 @@ void selectNextPoint()
 		selectedPoint = &exObj.points[selectedPoint->pointId+1];
 	else
 		selectedPoint = &exObj.points[0];
+
+	colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
 }
 
 void selectPrevPoint()
@@ -113,6 +129,10 @@ void selectPrevPoint()
 		selectedPoint = &exObj.points[selectedPoint->pointId-1];
 	else
 		selectedPoint = &exObj.points[exObj.nextPointInList-1];
+
+	colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
 }
 
 const float changeVal = 0.01;
@@ -169,12 +189,17 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 	    if (strcmp(buffer, "obj") == 0)
 	    {
 		    fread(&exObj, sizeof(object), 1, input);
+
 		    fread(objScalingMat, sizeof(mat4), 1, input);
+		    scaleMenu.sliderList[0].curVal = objScalingMat[0 * 4 + 0];
+		    scaleMenu.sliderList[1].curVal = objScalingMat[1 * 4 + 1];
+		    scaleMenu.sliderList[2].curVal = objScalingMat[2 * 4 + 2];
+
 		    fread(&rotateMenu.sliderList[0].curVal, sizeof(float), 1, input);
 		    fread(&rotateMenu.sliderList[1].curVal, sizeof(float), 1, input);
 		    fread(&rotateMenu.sliderList[2].curVal, sizeof(float), 1, input);
-		    fread(objTranslateMat, sizeof(mat4), 1, input);
 
+		    fread(objTranslateMat, sizeof(mat4), 1, input);
 		    translateMenu.sliderList[0].curVal = objTranslateMat[0 * 4 + 3];
 		    translateMenu.sliderList[1].curVal = objTranslateMat[1 * 4 + 3];
 		    translateMenu.sliderList[2].curVal = objTranslateMat[2 * 4 + 3];
@@ -206,6 +231,16 @@ void objSave()
 {
 	mode = 'S';
 	SDL_ShowSaveFileDialog(FileDialogCallback, NULL, window, NULL, 0, SDL_GetBasePath());
+}
+
+void colorMenuToggle()
+{
+	colorMenu.isVisible = !colorMenu.isVisible;
+}
+
+void scaleMenuToggle()
+{
+	scaleMenu.isVisible = !scaleMenu.isVisible;
 }
 
 void translateMenuToggle()

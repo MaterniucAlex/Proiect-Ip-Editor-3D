@@ -38,6 +38,9 @@ void render()
 	///////////////////////////
 
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+
+	renderMenu(&colorMenu);
+	renderMenu(&scaleMenu);
 	renderMenu(&translateMenu);
 	renderMenu(&rotateMenu);
 
@@ -56,6 +59,8 @@ void render()
 	renderButton(&pointMinusZ);
 	renderButton(&loadObjButton);
 	renderButton(&saveObjButton);
+	renderButton(&toggleColorMenu);
+	renderButton(&toggleScaleMenu);
 	renderButton(&toggleTranslateMenu);
 	renderButton(&toggleRotateMenu);
 

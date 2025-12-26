@@ -39,35 +39,49 @@ void init()
 	//BUTTONS
 	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, (SDL_FRect){200, 200, 200, 100}, toggleWireframe);
 
-	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, 540, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
-	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, 540, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
+	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
+	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
 
-	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){10, 480, 50, 50}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
-	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){70, 480, 50, 50}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
-	pointMinusY = createButton(BUTTON_HOLD, (SDL_FRect){10, 420, 50, 50}, (SDL_FRect){100, 200, 100, 100}, minusPointY);
-	pointPlusY  = createButton(BUTTON_HOLD, (SDL_FRect){70, 420, 50, 50}, (SDL_FRect){0,   200, 100, 100}, plusPointY);
-	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, 360, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
-	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, 360, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
+	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){10, SCREEN_H - 100 - 20, 50, 50}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
+	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){70, SCREEN_H - 100 - 20, 50, 50}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
+	pointMinusY = createButton(BUTTON_HOLD, (SDL_FRect){10, SCREEN_H - 150 - 25, 50, 50}, (SDL_FRect){100, 200, 100, 100}, minusPointY);
+	pointPlusY  = createButton(BUTTON_HOLD, (SDL_FRect){70, SCREEN_H - 150 - 25, 50, 50}, (SDL_FRect){0,   200, 100, 100}, plusPointY);
+	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, SCREEN_H - 200 - 30, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
+	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, SCREEN_H - 200 - 30, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
 
 	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 10, 100, 50}, (SDL_FRect){200, 0  , 200, 100}, objLoad);
 	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 70, 100, 50}, (SDL_FRect){200, 100, 200, 100}, objSave);
 
-	toggleTranslateMenu = createButton(BUTTON_CLICK, (SDL_FRect){470, 10, 50, 50}, (SDL_FRect){0,   300, 100, 100}, translateMenuToggle);
-	toggleRotateMenu    = createButton(BUTTON_CLICK, (SDL_FRect){530, 10, 50, 50}, (SDL_FRect){0,   300, 100, 100}, rotateMenuToggle);
+	toggleColorMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 200 - 40, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){  0, 400, 100, 100}, colorMenuToggle);
+	toggleScaleMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 150 - 30, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){100, 400, 100, 100}, scaleMenuToggle);
+	toggleTranslateMenu = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 50  - 10, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){200, 400, 100, 100}, translateMenuToggle);
+	toggleRotateMenu    = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 100 - 20, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){300, 400, 100, 100}, rotateMenuToggle);
 
 	//initMenu(&translateMenu);
 
+	colorMenu = createMenu(0, 3);
+	colorMenu.isVisible = 0;
+	colorMenu.sliderList[0] = createSlider(0.0, 255.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 120 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
+	colorMenu.sliderList[1] = createSlider(0.0, 255.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 120 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
+	colorMenu.sliderList[2] = createSlider(0.0, 255.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 120 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
+
+	scaleMenu = createMenu(0, 3);
+	scaleMenu.isVisible = 0;
+	scaleMenu.sliderList[0] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 50 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
+	scaleMenu.sliderList[1] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 50 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
+	scaleMenu.sliderList[2] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 50 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
+
 	translateMenu = createMenu(0, 3);
-	translateMenu.isVisible = 1;
-	translateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){600, 200, 100, 10}, (SDL_Color){255,   0,   0, 255});
-	translateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){600, 225, 100, 10}, (SDL_Color){  0, 255,   0, 255});
-	translateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){600, 250, 100, 10}, (SDL_Color){  0,   0, 255, 255});
+	translateMenu.isVisible = 0;
+	translateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 50 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
+	translateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 50 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
+	translateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 50 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
 
 	rotateMenu = createMenu(0, 3);
-	rotateMenu.isVisible = 1;
-	rotateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){600, 300, 100, 10}, (SDL_Color){255,   0,   0, 255});
-	rotateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){600, 325, 100, 10}, (SDL_Color){  0, 255,   0, 255});
-	rotateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){600, 350, 100, 10}, (SDL_Color){  0,   0, 255, 255});
+	rotateMenu.isVisible = 0;
+	rotateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 120 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
+	rotateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 120 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
+	rotateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 120 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
 
 	if (!loadObj())
 	{
@@ -101,6 +115,10 @@ void init()
 	}
 	selectedPoint = &exObj.points[0];
 
+	colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
+
 
 	initEmptyObject(&levelFloor);
 	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0, 1}, {255, 0  , 0  , 255}});
@@ -122,8 +140,10 @@ void quit()
 	saveObj();
 	free(pixels);
 	free(depthBuffer);
-	freeMenu(&translateMenu);
+	freeMenu(&colorMenu);
+	freeMenu(&scaleMenu);
 	freeMenu(&rotateMenu);
+	freeMenu(&translateMenu);
 	SDL_DestroyCursor(normalCursor);
 	SDL_DestroyCursor(pointerCursor);
 	SDL_DestroyTexture(frameBufferTexture);
@@ -148,16 +168,22 @@ int loadObj()
 		return 0;
 	}
 	fread(&exObj, sizeof(object), 1, input);
+
 	fread(objScalingMat, sizeof(mat4), 1, input);
+	scaleMenu.sliderList[0].curVal = objScalingMat[0 * 4 + 0];
+	scaleMenu.sliderList[1].curVal = objScalingMat[1 * 4 + 1];
+	scaleMenu.sliderList[2].curVal = objScalingMat[2 * 4 + 2];
+
 	fread(&rotateMenu.sliderList[0].curVal, sizeof(float), 1, input);
 	fread(&rotateMenu.sliderList[1].curVal, sizeof(float), 1, input);
 	fread(&rotateMenu.sliderList[2].curVal, sizeof(float), 1, input);
-	fread(objTranslateMat, sizeof(mat4), 1, input);
-	fclose(input);
 
+	fread(objTranslateMat, sizeof(mat4), 1, input);
 	translateMenu.sliderList[0].curVal = objTranslateMat[0 * 4 + 3];
 	translateMenu.sliderList[1].curVal = objTranslateMat[1 * 4 + 3];
 	translateMenu.sliderList[2].curVal = objTranslateMat[2 * 4 + 3];
+
+	fclose(input);
 
 	return 1;
 }

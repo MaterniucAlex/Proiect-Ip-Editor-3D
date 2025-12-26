@@ -69,13 +69,17 @@ Button scaleObjButton;
 Button loadObjButton;
 Button saveObjButton;
 
+Button toggleColorMenu;
+Button toggleScaleMenu;
 Button toggleTranslateMenu;
 Button toggleRotateMenu;
 
 point *selectedPoint;
 
-PopupMenu translateMenu;
+PopupMenu colorMenu;
+PopupMenu scaleMenu;
 PopupMenu rotateMenu;
+PopupMenu translateMenu;
 
 int pointX;
 int pointY;
