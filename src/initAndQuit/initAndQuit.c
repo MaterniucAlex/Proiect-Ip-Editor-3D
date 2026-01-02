@@ -57,8 +57,6 @@ void init()
 	toggleTranslateMenu = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 50  - 10, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){200, 400, 100, 100}, translateMenuToggle);
 	toggleRotateMenu    = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 100 - 20, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){300, 400, 100, 100}, rotateMenuToggle);
 
-	//initMenu(&translateMenu);
-
 	colorMenu = createMenu(0, 3);
 	colorMenu.isVisible = 0;
 	colorMenu.sliderList[0] = createSlider(0.0, 255.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 120 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});

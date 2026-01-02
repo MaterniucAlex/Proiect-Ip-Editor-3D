@@ -1,12 +1,14 @@
 #pragma once
+#include "SDL3/SDL_render.h"
+#include "SDL3/SDL_video.h"
+#ifndef UPDATE
+#define UPDATE
+
 #include "SDL3/SDL_dialog.h"
 #include "SDL3/SDL_filesystem.h"
 #include <stdio.h>
 #include <string.h>
-#include <wchar.h>
-#ifndef UPDATE
-#define UPDATE
-
+#include "../ObjLoader/ObjLoader.h"
 #include "../ProjectVars.h"
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_mouse.h>
@@ -87,7 +89,7 @@ void update()
 	objScalingMat[2 * 4 + 2] = scaleMenu.sliderList[2].curVal;
 
 	objTranslateMat[0 * 4 + 3] = translateMenu.sliderList[0].curVal;
-	objTranslateMat[1 * 4 + 3] = translateMenu.sliderList[1].curVal;
+	objTranslateMat[1 * 4 + 3] = -translateMenu.sliderList[1].curVal;
 	objTranslateMat[2 * 4 + 3] = translateMenu.sliderList[2].curVal;
 
 	selectedPoint->color[0] = colorMenu.sliderList[0].curVal;
@@ -203,6 +205,10 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 		    translateMenu.sliderList[0].curVal = objTranslateMat[0 * 4 + 3];
 		    translateMenu.sliderList[1].curVal = objTranslateMat[1 * 4 + 3];
 		    translateMenu.sliderList[2].curVal = objTranslateMat[2 * 4 + 3];
+	    }
+	    else
+	    {
+		    loadObjFromObjFile(&exObj, filelist[0]);
 	    }
     }
     if (mode == 'S')

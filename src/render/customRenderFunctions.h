@@ -226,6 +226,7 @@ void fill_flat_bottom_triangle(point v1, point v2, point v3) {
 	leftPoint.color[1] = v1.color[1] + (v2.color[1] - v1.color[1]) * leftProgress;
 	leftPoint.color[2] = v1.color[2] + (v2.color[2] - v1.color[2]) * leftProgress;
 
+	if (v3.coords[1] - v1.coords[1] < 1) return;
 	float rightProgress = (rightPoint.coords[1] - v1.coords[1]) / (v3.coords[1] - v1.coords[1]);
 	rightPoint.color[0] = v1.color[0] + (v3.color[0] - v1.color[0]) * rightProgress;
 	rightPoint.color[1] = v1.color[1] + (v3.color[1] - v1.color[1]) * rightProgress;
@@ -243,6 +244,7 @@ void fill_flat_top_triangle(point v1, point v2, point v3) {
     // Note: In this function, v3 is the Bottom Tip. v1 and v2 are the top flat edge.
     // To keep it simple, we will start at v1/v2 and move DOWN to v3.
     
+if (v3.coords[1] - v1.coords[1] < 1) return;
     float inv_slope1 = (float)(v3.coords[0] - v1.coords[0]) / (v3.coords[1] - v1.coords[1]);
     float inv_slope2 = (float)(v3.coords[0] - v2.coords[0]) / (v3.coords[1] - v2.coords[1]);
 
@@ -261,7 +263,8 @@ void fill_flat_top_triangle(point v1, point v2, point v3) {
 	leftPoint.color[1] = v1.color[1] + (v3.color[1] - v1.color[1]) * leftProgress;
 	leftPoint.color[2] = v1.color[2] + (v3.color[2] - v1.color[2]) * leftProgress;
 
-	float rightProgress = (leftPoint.coords[1] - v1.coords[1]) / (v3.coords[1] - v1.coords[1]);
+	if (v3.coords[1] - v2.coords[1] < 1) return;
+	float rightProgress = (leftPoint.coords[1] - v1.coords[1]) / (v3.coords[1] - v2.coords[1]);
 	rightPoint.color[0] = v2.color[0] + (v3.color[0] - v2.color[0]) * rightProgress;
 	rightPoint.color[1] = v2.color[1] + (v3.color[1] - v2.color[1]) * rightProgress;
 	rightPoint.color[2] = v2.color[2] + (v3.color[2] - v2.color[2]) * rightProgress;

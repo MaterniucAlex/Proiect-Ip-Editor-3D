@@ -8,6 +8,7 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <stdio.h>
 
 void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat);
 void drawSelectedPoint(mat4 transformMat);
@@ -143,32 +144,33 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 
 void drawSelectedPoint(mat4 transformMat)
 {
+
 	point pOrigin = (point){.coords = {
 		selectedPoint->coords[0],
 		selectedPoint->coords[1],
 		selectedPoint->coords[2],
-		-999,
+		selectedPoint->coords[3]
 	}, .color = {0, 255, 255, 255}};
 
 	point pX = (point){.coords = {
 		selectedPoint->coords[0] + 0.1,
 		selectedPoint->coords[1],
 		selectedPoint->coords[2],
-		-999,
+		selectedPoint->coords[3]
 	}, .color = {125, 0, 0, 255}};
 
 	point pY = (point){.coords = {
 		selectedPoint->coords[0],
 		selectedPoint->coords[1] - 0.1,
 		selectedPoint->coords[2],
-		-999,
+		selectedPoint->coords[3]
 	}, .color = {0, 125, 0, 255}};
 
 	point pZ = (point){.coords = {
 		selectedPoint->coords[0],
 		selectedPoint->coords[1],
 		selectedPoint->coords[2] + 0.1,
-		-999,
+		selectedPoint->coords[3]
 	}, .color = {0, 0, 125, 255}};
 
 	multMatByVec(transformMat, pOrigin.coords);
