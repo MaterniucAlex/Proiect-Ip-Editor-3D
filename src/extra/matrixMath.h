@@ -5,7 +5,6 @@
 #define _USE_MATH_DEFINES
 
 #include <math.h>
-#include <stdio.h>
 
 typedef float vec4[4];
 typedef float mat4[16];
@@ -126,7 +125,7 @@ void normalizeVector(vec4 vec)
     vec[i] /= magni;
 }
 
-void multMatByLeftMat(mat4 mat, mat4 mult)
+void multMatByLeftMat(mat4 mat, mat4 mult) // mat = mult * mat AND NOT mat = mat * mult
 {
   mat4 cpy;
   copyToMat(cpy, mat);

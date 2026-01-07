@@ -25,6 +25,7 @@ typedef struct object {
 void initEmptyObject(object *obj)
 {
 	obj->nextPointInList = 0;
+	obj->nextPointId = 0;
 }
 
 void addPointToObject(object *obj, point point)
