@@ -13,8 +13,6 @@ void loadObjFromObjFile(object *obj, const char *path)
 {
 	initEmptyObject(obj);
 
-	unsigned char r = 0, g = 0, b = 0;
-
 	FILE *file = fopen(path, "r");
 	assert(file);
 
@@ -31,23 +29,17 @@ void loadObjFromObjFile(object *obj, const char *path)
 				float x, y, z;
 				buffer2 = strtok(NULL , " ");
 				if (buffer2) x = atof(buffer2);
-				if (fabsf(x) > 1 && normalizer == 1)
-					normalizer = x * 2;
-				x /= normalizer;
+
+				if (fabsf(x) > normalizer)
+					normalizer = fabsf(x);
 
 				buffer2 = strtok(NULL , " ");
 				if (buffer2) y = -atof(buffer2);
-				y /= normalizer;
 
 				buffer2 = strtok(NULL , " ");
 				if (buffer2) z = atof(buffer2);
-				z /= normalizer;
 
-				if (buffer2) addPointToObject(obj, (point){{x, -y, z, 1.f}, {r, g, b}});
-
-				r = (r < 255 - 1 ? r + 1 : 0);
-				g = (g < 255 - 2 ? g + 2 : 0);
-				b = (b < 255 - 3 ? b + 3 : 0);
+				if (buffer2) addPointToObject(obj, (point){{x, -y, z, 1.f}});
 
 				buffer2 = strtok(NULL , " ");
 			}
@@ -73,6 +65,18 @@ void loadObjFromObjFile(object *obj, const char *path)
 	}
 
 	fclose(file);
+
+	printf("%f\n", normalizer);
+	for(int i = 0; i < obj->nextPointInList; i++)
+	{
+		obj->points[i].coords[0] /= normalizer;
+		obj->points[i].coords[1] /= -normalizer;
+		obj->points[i].coords[2] /= normalizer;
+
+		obj->points[i].color[0] = (obj->points[i].coords[0] + 1) / 2 * 255;
+		obj->points[i].color[1] = 0;//obj->points[i].coords[0] * 255;
+		obj->points[i].color[2] = 0;//obj->points[i].coords[0] * 255;
+	}
 
 }
 

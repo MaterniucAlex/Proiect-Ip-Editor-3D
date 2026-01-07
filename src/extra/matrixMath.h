@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 #ifndef MATRIX_MATH
 #define MATRIX_MATH
 
@@ -34,6 +35,14 @@ void multMatByVec(mat4 mat, vec4 vec)
 	float w = vec[3];
 	for(int i = 0; i < 4; i++)
 		vec[i] = mat[4 * i + 0] * x + mat[4 * i + 1] * y + mat[4 * i + 2] * z + mat[4 * i + 3] * w;
+
+	if (vec[3] > 0.01)
+	{
+		vec[0] /= vec[3];
+		vec[1] /= vec[3];
+		vec[2] /= vec[3];
+	}
+
 }
 
 float magnitudeOfVec(vec4 vec)
@@ -190,7 +199,6 @@ void initTranslationalMatrix(mat4 mat, float x, float y, float z)
   mat[0 * 4 + 3] = x;
   mat[1 * 4 + 3] = y;
   mat[2 * 4 + 3] = z;
-  mat[3 * 4 + 3] = 1.0f;
 }
 
 
@@ -217,19 +225,24 @@ void initLookAtMatrix(mat4 mat, vec4 position, vec4 target, vec4 upVector)
 {
   vec4 cameraDirection;
   copyFromVec(cameraDirection, target);
+
   subVecFromVec(cameraDirection, position);
   normalizeVector(cameraDirection);
 
   vec4 cameraRight;
   vec4 multVec;
+
   copyFromVec(cameraRight, upVector);
   copyFromVec(multVec, cameraDirection);
+
   vecCrossProduct(cameraRight, multVec);
   normalizeVector(cameraRight);
 
   vec4 cameraUp;
+
   copyFromVec(cameraUp, cameraDirection);
   copyFromVec(multVec, cameraRight);
+
   vecCrossProduct(cameraUp, multVec);
   normalizeVector(cameraUp);
 
@@ -282,14 +295,14 @@ void copyFromVec(vec4 orig, vec4 copy)
 
 void turnVecCoordToScreenCoord(vec4 vec, int W, int H)
 {
-	vec[0] = vec[0] / (W / 2.f) - 1;
-	vec[1] = vec[1] / (H / 2.f) - 1;
+	vec[0] = vec[0] / W * 2 - 1;
+	vec[1] = vec[1] / H * 2 - 1;
 }
 
 void turnScreenCoordToVecCoord(vec4 vec, int W, int H)
 {
-	vec[0] = vec[0] * (W / 2.f) + W / 2.f;
-	vec[1] = vec[1] * (H / 2.f) + H / 2.f;
+	vec[0] = (vec[0] + 1) / 2 * W;
+	vec[1] = (vec[1] + 1) / 2 * H;
 }
 
 #endif

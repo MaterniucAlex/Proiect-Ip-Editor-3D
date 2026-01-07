@@ -26,6 +26,16 @@ void render()
 	initScalingMatrix(transformMat, 1, 1, 1);
 	renderObject(&levelFloor, renderer, transformMat);
 
+	///////////
+	point red = levelFloor.points[0];
+	multMatByVec(transformMat, red.coords);
+	turnScreenCoordToVecCoord(red.coords, SCREEN_W, SCREEN_H);
+	printf("%f\n", red.coords[3]);
+	printf("%f %f\n", red.coords[0], red.coords[1]);
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	renderCircle(red.coords[0], red.coords[1], 5);
+	////////
+
 	copyToMat(transformMat, objScalingMat);
 	multMatByLeftMat(transformMat, objRotateMat);
 	multMatByLeftMat(transformMat, objTranslateMat);

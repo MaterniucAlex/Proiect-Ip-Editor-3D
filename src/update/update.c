@@ -43,6 +43,9 @@ void update()
 					camWhenDragStartY = cameraYangle;
 				}
 				break;
+			case SDL_EVENT_MOUSE_WHEEL:
+				cameraZoom += 0.1 * (event.wheel.y);
+				break;
 		}
 
 	}
@@ -103,9 +106,9 @@ void update()
 	else
 		SDL_SetCursor(normalCursor);
 
-	cameraPosition[0] = cos(cameraXangle);
-	cameraPosition[1] = cameraYangle;
-	cameraPosition[2] = sin(cameraXangle);
+	cameraPosition[0] = cos(cameraXangle) / cameraZoom;
+	cameraPosition[1] = cameraYangle / cameraZoom;
+	cameraPosition[2] = sin(cameraXangle) / cameraZoom;
 }
 
 void toggleWireframe()

@@ -21,9 +21,9 @@ float *depthBuffer;
 Uint32 *pixels;
 SDL_Texture *frameBufferTexture;
 
-vec4 cameraPosition = {0.f, 0.f, -1.f};
-vec4 cameraTarget   = {0.f, 0.f, 0.f};
-vec4 cameraUp 	    = {0.f, 1.f, 0.f};
+vec4 cameraPosition = {0.f, 0.f, -1.f, 1.0f};
+vec4 cameraTarget   = {0.f, 0.f, 0.f, 1.0f};
+vec4 cameraUp 	    = {0.f, 1.f, 0.f, 1.0f};
 
 mat4 objScalingMat;
 mat4 objTranslateMat;
@@ -31,6 +31,7 @@ mat4 objRotateMat;
 
 float cameraXangle = 0.5;
 float cameraYangle = -0.5;
+float cameraZoom = 1;
 
 SDL_Texture *buttonTexture;
 
