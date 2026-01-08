@@ -181,6 +181,11 @@ int loadObj()
 	translateMenu.sliderList[1].curVal = objTranslateMat[1 * 4 + 3];
 	translateMenu.sliderList[2].curVal = objTranslateMat[2 * 4 + 3];
 
+	selectedPoint = &exObj.points[0];
+	colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
+
 	fclose(input);
 
 	return 1;

@@ -66,7 +66,6 @@ void loadObjFromObjFile(object *obj, const char *path)
 
 	fclose(file);
 
-	printf("%f\n", normalizer);
 	for(int i = 0; i < obj->nextPointInList; i++)
 	{
 		obj->points[i].coords[0] /= normalizer;

@@ -45,6 +45,7 @@ void update()
 				break;
 			case SDL_EVENT_MOUSE_WHEEL:
 				cameraZoom += 0.1 * (event.wheel.y);
+				if (cameraZoom < 0.4f) cameraZoom = 0.4f;
 				break;
 		}
 
@@ -213,6 +214,11 @@ void SDLCALL FileDialogCallback(void *userdata, const char * const *filelist, in
 	    {
 		    loadObjFromObjFile(&exObj, filelist[0]);
 	    }
+
+	    selectedPoint = &exObj.points[0];
+	    colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+	    colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+	    colorMenu.sliderList[2].curVal = selectedPoint->color[2];
     }
     if (mode == 'S')
     {

@@ -21,7 +21,10 @@ void renderCircle(int x, int y, int radius)
 	{
 		float radians = i * (M_PI / 180.0);
 		for(int r = 0; r < radius; r++)
-			pixels[((int)(y - cosf(radians) * r) * SCREEN_W + (int)(x + sinf(radians) * r))] = color;
+		{
+			int screenCoord = (int)(y - cosf(radians) * r) * SCREEN_W + (int)(x + sinf(radians) * r);
+			if (screenCoord >= 0 && screenCoord < SCREEN_W * SCREEN_H) pixels[screenCoord] = color;
+		}
 
 	}
 }

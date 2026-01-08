@@ -26,16 +26,6 @@ void render()
 	initScalingMatrix(transformMat, 1, 1, 1);
 	renderObject(&levelFloor, renderer, transformMat);
 
-	///////////
-	point red = levelFloor.points[0];
-	multMatByVec(transformMat, red.coords);
-	turnScreenCoordToVecCoord(red.coords, SCREEN_W, SCREEN_H);
-	printf("%f\n", red.coords[3]);
-	printf("%f %f\n", red.coords[0], red.coords[1]);
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	renderCircle(red.coords[0], red.coords[1], 5);
-	////////
-
 	copyToMat(transformMat, objScalingMat);
 	multMatByLeftMat(transformMat, objRotateMat);
 	multMatByLeftMat(transformMat, objTranslateMat);
@@ -90,7 +80,7 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 	initLookAtMatrix(calcMat, cameraPosition, cameraTarget, cameraUp);
 	multMatByLeftMat(transformMat, calcMat);
 
-	initProjectionMatrix(calcMat, 90, (float)SCREEN_W / SCREEN_H, 0.1f, 10.f);
+	initProjectionMatrix(calcMat, 90, (float)SCREEN_W / SCREEN_H, 0.1f, 100.f);
 	multMatByLeftMat(transformMat, calcMat);
 
 	point p1, p2, p3;
@@ -105,7 +95,10 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 		else
 		{
 			p1 = object->points[object->pointId[i + 0]];
+
 			multMatByVec(transformMat, p1.coords);
+			applyPerspectiveVector(p1.coords);
+
 			turnScreenCoordToVecCoord(p1.coords, SCREEN_W, SCREEN_H);
 		}
 
@@ -114,12 +107,18 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 		else
 		{
 			p2 = object->points[object->pointId[i + 1]];
+
 			multMatByVec(transformMat, p2.coords);
+			applyPerspectiveVector(p2.coords);
+
 			turnScreenCoordToVecCoord(p2.coords, SCREEN_W, SCREEN_H);
 		}
 
 		p3 = object->points[object->pointId[i + 2]];
+
 		multMatByVec(transformMat, p3.coords);
+		applyPerspectiveVector(p3.coords);
+
 		turnScreenCoordToVecCoord(p3.coords, SCREEN_W, SCREEN_H);
 
 		if (!wireframeRender)
@@ -184,12 +183,19 @@ void drawSelectedPoint(mat4 transformMat)
 	}, .color = {0, 0, 125, 255}};
 
 	multMatByVec(transformMat, pOrigin.coords);
+	applyPerspectiveVector(pOrigin.coords);
 	turnScreenCoordToVecCoord(pOrigin.coords, SCREEN_W, SCREEN_H);
+
 	multMatByVec(transformMat, pX.coords);
+	applyPerspectiveVector(pX.coords);
 	turnScreenCoordToVecCoord(pX.coords, SCREEN_W, SCREEN_H);
+
 	multMatByVec(transformMat, pY.coords);
+	applyPerspectiveVector(pY.coords);
 	turnScreenCoordToVecCoord(pY.coords, SCREEN_W, SCREEN_H);
+
 	multMatByVec(transformMat, pZ.coords);
+	applyPerspectiveVector(pZ.coords);
 	turnScreenCoordToVecCoord(pZ.coords, SCREEN_W, SCREEN_H);
 
 	drawLineCustomT(pOrigin, pX, 2);

@@ -36,13 +36,6 @@ void multMatByVec(mat4 mat, vec4 vec)
 	for(int i = 0; i < 4; i++)
 		vec[i] = mat[4 * i + 0] * x + mat[4 * i + 1] * y + mat[4 * i + 2] * z + mat[4 * i + 3] * w;
 
-	if (vec[3] > 0.01)
-	{
-		vec[0] /= vec[3];
-		vec[1] /= vec[3];
-		vec[2] /= vec[3];
-	}
-
 }
 
 float magnitudeOfVec(vec4 vec)
@@ -206,18 +199,18 @@ void initProjectionMatrix(mat4 mat, float FOV, float AspectRatio, float near, fl
 {
   for(int i = 0; i < 16; i++) mat[i] = 0;
 
-  float range = near - far;
+  float range = -(far - near); //far - near
   float A = (-far - near) / range;
-  float B = 2.0f * far * near / range;
+  float B = (2.0f * far * near) / range;
 
-  mat[2 * 4 + 2] = A;
-  mat[2 * 4 + 3] = B;
-  mat[3 * 4 + 2] = 1;
-
-  float f = 1 / tanf((FOV / 2.0f) * (M_PI / 180));
+  float f = 1.f / tanf((FOV / 2.0f) * (M_PI / 180.f));
 
   mat[0 * 4 + 0] = f / AspectRatio;
   mat[1 * 4 + 1] = f;
+
+  mat[2 * 4 + 2] = A;
+  mat[2 * 4 + 3] = B;
+  mat[3 * 4 + 2] = 1; //-1 
 
 }
 
@@ -265,13 +258,12 @@ void initLookAtMatrix(mat4 mat, vec4 position, vec4 target, vec4 upVector)
 
 }
 
-void applyPerspectiveToMatrix(mat4 mat, float w)
+void applyPerspectiveVector(vec4 vec)
 {
-  for(int i = 0; i < 16; i++)
-  {
-      mat[i] /= w;
-  }
-  mat[15] = w;
+	for(int i = 0; i < 4; i++)
+	{
+		if (vec[3] != 0) vec[i] /= fabs(vec[3]); //fabs -> temp fix (we know it won't be temporary')
+	}
 }
 
 void initVec(vec4 vec, float k)
