@@ -62,13 +62,14 @@ void loadObjFromObjFile(object *obj, const char *path)
 
 			if (buffer2) createTriangleFromPointIds(obj, p1, p2, p3);
 
-			//strtok(NULL, " ");
-			//buffer2 = strtok(NULL, "/");
-			//if (buffer2)
-			//{
-				//p2 = atoi(buffer2) - 1;
-				//createTriangleFromPointIds(obj, p1, p2, p3);
-			//}
+
+			strtok(NULL, " ");
+			buffer2 = strtok(NULL, "/");
+			if (buffer2 != NULL && strcmp(buffer2, "\n"))
+			{
+				p2 = atoi(buffer2) - 1;
+				createTriangleFromPointIds(obj, p1, p2, p3);
+			}
 		}
 	}
 
