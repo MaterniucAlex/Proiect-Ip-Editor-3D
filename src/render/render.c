@@ -100,6 +100,7 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 	
 	for (int i = 0; i < (object->nextPointId - object->nextPointId % 3); i+=3)
 	{
+		if (object->pointId[i + 0] == -1) continue;
 		if (object->pointId[i + 0] == p2.pointId)
 			p1 = p2;
 		else
@@ -112,6 +113,7 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 			turnScreenCoordToVecCoord(p1.coords, SCREEN_W, SCREEN_H);
 		}
 
+		if (!p1.isVisible) continue;
 		if (object->pointId[i + 1] == p3.pointId)
 			p2 = p3;
 		else
@@ -124,13 +126,13 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 			turnScreenCoordToVecCoord(p2.coords, SCREEN_W, SCREEN_H);
 		}
 
+		if (!p2.isVisible) continue;
 		p3 = object->points[object->pointId[i + 2]];
+		if (!p3.isVisible) continue;
 
 		multMatByVec(transformMat, p3.coords);
 		applyPerspectiveVector(p3.coords);
 		turnScreenCoordToVecCoord(p3.coords, SCREEN_W, SCREEN_H);
-
-		//if (!isPointInbounds(&p1) || !isPointInbounds(&p2) || !isPointInbounds(&p3)) continue;
 
 		if (!wireframeRender)
 			draw_filled_triangle(p1, p2, p3);
@@ -164,6 +166,7 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 
 void drawSelectedPoint(mat4 transformMat)
 {
+	if (selectedPoint->pointId == -1) return;
 
 	point pOrigin = (point){.coords = {
 		selectedPoint->coords[0],

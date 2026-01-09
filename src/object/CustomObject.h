@@ -6,6 +6,7 @@ typedef struct point {
 	float coords[4];
 	unsigned char color[4];
 	char pointId;
+	char isVisible;
 } point;
 
 #define MAX_POINTS 2000
@@ -33,6 +34,7 @@ void addPointToObject(object *obj, point point)
 	if (obj->nextPointInList >= MAX_POINTS) return;
 	point.pointId = obj->nextPointInList;
 	obj->points[obj->nextPointInList] = point;
+	obj->points[obj->nextPointInList].isVisible = 1;
 	obj->nextPointInList += 1;
 }
 

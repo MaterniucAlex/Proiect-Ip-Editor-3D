@@ -46,6 +46,9 @@ void init()
 	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 0, SCREEN_H - (normalButtonSize + buttonPadding) * 1, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
 	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 1, normalButtonSize, normalButtonSize}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
 
+	deletePoint = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 0, SCREEN_H - (normalButtonSize + buttonPadding) * 5, normalButtonSize, normalButtonSize}, (SDL_FRect){400, 100, 100, 100}, pointDelete);
+	createPoint = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 5, normalButtonSize, normalButtonSize}, (SDL_FRect){400,   0, 100, 100}, pointCreate);
+
 	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 0, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
 	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
 	pointMinusY = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 1, SCREEN_H - (normalButtonSize + buttonPadding) * 2, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 200, 100, 100}, minusPointY);
@@ -94,7 +97,7 @@ void init()
 	modelTransformMenu.buttonList[1] = &toggleRotateMenu;
 	modelTransformMenu.buttonList[2] = &toggleTranslateMenu;
 
-	pointTransformMenu = createMenu(9, 0);
+	pointTransformMenu = createMenu(11, 0);
 	pointTransformMenu.isVisible = 0;
 	pointTransformMenu.buttonList[0] = &toggleColorMenu;
 	pointTransformMenu.buttonList[1] = &pointMinusX;
@@ -105,6 +108,8 @@ void init()
 	pointTransformMenu.buttonList[6] = &pointPlusZ;
 	pointTransformMenu.buttonList[7] = &nextPoint;
 	pointTransformMenu.buttonList[8] = &prevPoint;
+	pointTransformMenu.buttonList[9] = &createPoint;
+	pointTransformMenu.buttonList[10] = &deletePoint;
 
 
 	if (!loadObj())

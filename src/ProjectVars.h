@@ -60,6 +60,9 @@ Button wireframeButton;
 Button nextPoint;
 Button prevPoint;
 
+Button createPoint;
+Button deletePoint;
+
 Button pointPlusX;
 Button pointMinusX;
 Button pointPlusY;

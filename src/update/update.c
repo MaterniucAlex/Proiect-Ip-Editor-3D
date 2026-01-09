@@ -111,26 +111,41 @@ void toggleWireframe()
 
 void selectNextPoint()
 {
-	if (selectedPoint->pointId < exObj.nextPointInList)
-		selectedPoint = &exObj.points[selectedPoint->pointId+1];
-	else
-		selectedPoint = &exObj.points[0];
+	int trackPoint = selectedPoint->pointId;
+	for(int i = 1; i < exObj.nextPointInList; i++)
+	{
+		if (trackPoint + i >= exObj.nextPointInList)
+			trackPoint = -1;
+		if (exObj.points[trackPoint + i].isVisible)
+		{
+			selectedPoint = &exObj.points[trackPoint + i];
+			colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+			colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+			colorMenu.sliderList[2].curVal = selectedPoint->color[2];
+			break;
+		}
 
-	colorMenu.sliderList[0].curVal = selectedPoint->color[0];
-	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
-	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
+	}
 }
 
 void selectPrevPoint()
 {
-	if (selectedPoint->pointId > 0)
-		selectedPoint = &exObj.points[selectedPoint->pointId-1];
-	else
-		selectedPoint = &exObj.points[exObj.nextPointInList-1];
+	int trackPoint = selectedPoint->pointId;
+	for(int i = 1; i < exObj.nextPointInList; i++)
+	{
+		if (trackPoint - i < 0)
+			trackPoint = exObj.nextPointInList;
+		if (exObj.points[trackPoint - i].isVisible)
+		{
+			selectedPoint = &exObj.points[trackPoint - i];
+			colorMenu.sliderList[0].curVal = selectedPoint->color[0];
+			colorMenu.sliderList[1].curVal = selectedPoint->color[1];
+			colorMenu.sliderList[2].curVal = selectedPoint->color[2];
+			break;
+		}
 
-	colorMenu.sliderList[0].curVal = selectedPoint->color[0];
-	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
-	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
+	}
+
 }
 
 const float changeVal = 0.01;
@@ -269,4 +284,29 @@ void pointMenuToggle()
 {
 	pointTransformMenu.isVisible = !pointTransformMenu.isVisible;
 }
+
+void pointCreate()
+{
+	addPointToObject(&exObj, (point){{0.f, 0.f, 0.f, 1.f}, {255, 255, 255, 255}});
+	
+	int p1 = exObj.nextPointInList - 1;
+	int p2 = selectedPoint->pointId;
+	selectPrevPoint();
+	int p3 = selectedPoint->pointId;
+
+	createTriangleFromPointIds(&exObj, p1, p2, p3);
+
+	selectedPoint = &exObj.points[p1];
+}
+
+void pointDelete()
+{
+	if (selectedPoint == NULL || selectedPoint->pointId < 0 || selectedPoint->pointId >= exObj.nextPointInList) return;
+
+	int idToDelete = selectedPoint->pointId;
+	exObj.points[idToDelete].isVisible = 0;
+
+	selectNextPoint();
+}
+
 #endif
