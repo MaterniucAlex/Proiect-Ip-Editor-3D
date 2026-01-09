@@ -57,8 +57,8 @@ void init()
 	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding, buttonPadding + (normalButtonSize + buttonPadding) * 0, 100, normalButtonSize}, (SDL_FRect){200, 0  , 200, 100}, objLoad);
 	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding, buttonPadding + (normalButtonSize + buttonPadding) * 1, 100, normalButtonSize}, (SDL_FRect){200, 100, 200, 100}, objSave);
 
-	toggleModelMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - (normalButtonSize + buttonPadding) * 1, SCREEN_H - normalButtonSize - buttonPadding, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 400, 100, 100}, modelMenuToggle);
-	togglePointMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - (normalButtonSize + buttonPadding) * 2, SCREEN_H - normalButtonSize - buttonPadding, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 400, 100, 100}, pointMenuToggle);
+	toggleModelMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - (normalButtonSize + buttonPadding) * 1, SCREEN_H - normalButtonSize - buttonPadding, normalButtonSize, normalButtonSize}, (SDL_FRect){200, 300, 100, 100}, modelMenuToggle);	
+	togglePointMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - (normalButtonSize + buttonPadding) * 2, SCREEN_H - normalButtonSize - buttonPadding, normalButtonSize, normalButtonSize}, (SDL_FRect){300, 300, 100, 100}, pointMenuToggle);
 
 	toggleScaleMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - normalButtonSize  - buttonPadding, SCREEN_H - (normalButtonSize + buttonPadding) * 2, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 400, 100, 100}, scaleMenuToggle);
 	toggleRotateMenu    = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - normalButtonSize  - buttonPadding, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){300, 400, 100, 100}, rotateMenuToggle);
