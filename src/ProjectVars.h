@@ -21,6 +21,8 @@ bool wireframeRender = false;
 float *depthBuffer;
 Uint32 *pixels;
 SDL_Texture *frameBufferTexture;
+SDL_Texture *startTexture;
+char hasStarted = 0;
 
 vec4 cameraPosition = {0.f, 0.f, -1.f, 1.0f};
 vec4 cameraTarget   = {0.f, 0.f,  0.f, 1.0f};

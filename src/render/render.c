@@ -16,6 +16,20 @@ void render()
 {
 	int renderStart = SDL_GetTicks();
 
+	if (!hasStarted)
+	{
+		SDL_FRect renderRect = {0, 0, 800, 600};
+		SDL_RenderTexture(renderer, startTexture, &renderRect, &renderRect);
+
+		SDL_RenderPresent(renderer);
+
+		int renderEnd = SDL_GetTicks();
+		int waitTime =  (1000 / FPS) - (renderEnd - renderStart);
+		SDL_Delay(waitTime > 0 ? waitTime : 0);
+
+		return;
+	}
+
 	memset(pixels, 0, SCREEN_W * SCREEN_H * sizeof(Uint32));
 	memset(depthBuffer, 127, SCREEN_W * SCREEN_H * sizeof(float));
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

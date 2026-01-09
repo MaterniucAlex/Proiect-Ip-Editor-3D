@@ -26,6 +26,7 @@ void init()
 	);
 
 	buttonTexture = IMG_LoadTexture(renderer, "assets/buttonTexture.png");
+	startTexture = IMG_LoadTexture(renderer, "assets/start.png");
 
 	for(int i = 0; i < SCREEN_W; i++)
 	{
@@ -180,6 +181,7 @@ void quit()
 	SDL_DestroyCursor(pointerCursor);
 	SDL_DestroyTexture(frameBufferTexture);
 	SDL_DestroyTexture(buttonTexture);
+	SDL_DestroyTexture(startTexture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

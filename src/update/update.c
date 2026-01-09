@@ -25,6 +25,7 @@ void update()
 				isRunning = 0;
 				break;
 			case SDL_EVENT_MOUSE_BUTTON_UP:
+				if (!hasStarted) hasStarted = 1;
 				mouseHold = false;
 				mouseClicked = true;
 				if (event.button.button == SDL_BUTTON_RIGHT && camDragStartX != 0)
@@ -51,6 +52,8 @@ void update()
 		}
 
 	}
+
+	if (!hasStarted) return;
 
 	SDL_GetMouseState(&mouseX, &mouseY);
 
