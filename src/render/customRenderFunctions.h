@@ -73,7 +73,7 @@ void drawScanline(int y, point p1, point p2)
 		if (x >= 0 && x < SCREEN_W && y >= 0 && y < SCREEN_H) {
 			int index = x + y * SCREEN_W;
 
-			if (curZ < depthBuffer[index]) {
+			if (curZ < depthBuffer[index] && curZ > 0) {
 				Uint32 color = (255 << 24) | 
 					((unsigned char)curR << 16) | 
 					((unsigned char)curG << 8) | 
@@ -187,6 +187,7 @@ void drawLineCustomT(point p1, point p2, int thicness)
 			for(int y = -thicness / 2; y <= thicness / 2; y++)
 			{
 				int index = curX + x + (curY + y) * SCREEN_W;
+				if (index >= SCREEN_W * SCREEN_H || index < 0) continue;
 
 				if (curZ < depthBuffer[index]) 
 				{

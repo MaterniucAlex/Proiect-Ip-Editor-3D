@@ -5,9 +5,10 @@
 #include <stdlib.h>
 #include "button.h"
 #include "slider.h"
+#include "../ProjectVars.h"
 
 typedef struct PopupMenu {
-	Button *buttonList;
+	Button **buttonList;
 	Slider *sliderList;
 	int nrOfSliders;
 	int nrOfButtons;
@@ -39,7 +40,7 @@ void renderMenu(PopupMenu *menu)
 	if (!menu->isVisible) return;
 
 	for(int i = 0; i < menu->nrOfButtons; i++)
-		renderButton(menu->buttonList + i);
+		renderButton(*(menu->buttonList + i));
 
 	for(int i = 0; i < menu->nrOfSliders; i++)
 		renderSlider(menu->sliderList + i);
@@ -51,7 +52,7 @@ void updateMenu(PopupMenu *menu)
 	if (!menu->isVisible) return;
 
 	for(int i = 0; i < menu->nrOfButtons; i++)
-		updateButton(&menu->buttonList[i]);
+		buttonsUpdated += updateButton(menu->buttonList[i]);
 
 	for(int i = 0; i < menu->nrOfSliders; i++)
 		updateSlider(&menu->sliderList[i]);

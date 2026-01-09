@@ -44,8 +44,9 @@ void update()
 				}
 				break;
 			case SDL_EVENT_MOUSE_WHEEL:
-				cameraZoom += 0.1 * (event.wheel.y);
+				cameraZoom += 0.05 * (event.wheel.y);
 				if (cameraZoom < 0.4f) cameraZoom = 0.4f;
+				if (cameraZoom > 3.f) cameraZoom = 3.f;
 				break;
 		}
 
@@ -59,34 +60,25 @@ void update()
 		cameraYangle = camWhenDragStartY + (camDragStartY - mouseY) / 200.f;
 	}
 
-
-	int buttonsUpdated = 0;
+	buttonsUpdated = 0;
 
 	buttonsUpdated += updateButton(&wireframeButton);
-	buttonsUpdated += updateButton(&nextPoint);
-	buttonsUpdated += updateButton(&prevPoint);
-
-	buttonsUpdated += updateButton(&pointPlusX);
-	buttonsUpdated += updateButton(&pointMinusX);
-	buttonsUpdated += updateButton(&pointPlusY);
-	buttonsUpdated += updateButton(&pointMinusY);
-	buttonsUpdated += updateButton(&pointPlusZ);
-	buttonsUpdated += updateButton(&pointMinusZ);
 
 	buttonsUpdated += updateButton(&loadObjButton);
 	buttonsUpdated += updateButton(&saveObjButton);
 
-	buttonsUpdated += updateButton(&toggleColorMenu);
-	buttonsUpdated += updateButton(&toggleScaleMenu);
-	buttonsUpdated += updateButton(&toggleTranslateMenu);
-	buttonsUpdated += updateButton(&toggleRotateMenu);
+	buttonsUpdated += updateButton(&toggleModelMenu);
+	buttonsUpdated += updateButton(&togglePointMenu);
 
-	mouseClicked = false;
+	updateMenu(&modelTransformMenu);
+	updateMenu(&pointTransformMenu);
 
 	updateMenu(&colorMenu);
 	updateMenu(&scaleMenu);
 	updateMenu(&translateMenu);
 	updateMenu(&rotateMenu);
+
+	mouseClicked = false;
 
 	objScalingMat[0 * 4 + 0] = scaleMenu.sliderList[0].curVal;
 	objScalingMat[1 * 4 + 1] = scaleMenu.sliderList[1].curVal;
@@ -266,5 +258,15 @@ void translateMenuToggle()
 void rotateMenuToggle()
 {
 	rotateMenu.isVisible = !rotateMenu.isVisible;
+}
+
+void modelMenuToggle()
+{
+	modelTransformMenu.isVisible = !modelTransformMenu.isVisible;
+}
+
+void pointMenuToggle()
+{
+	pointTransformMenu.isVisible = !pointTransformMenu.isVisible;
 }
 #endif

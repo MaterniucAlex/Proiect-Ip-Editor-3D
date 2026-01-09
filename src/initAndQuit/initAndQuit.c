@@ -37,25 +37,32 @@ void init()
 
 
 	//BUTTONS
-	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - 50, 10, 100, 50}, (SDL_FRect){200, 200, 200, 100}, toggleWireframe);
+	int buttonPadding = 10;
+	int normalButtonSize = 50;
+	int sliderWidth = 100;
 
-	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){10, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
-	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){70, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
+	wireframeButton = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W / 2.f - normalButtonSize, buttonPadding, 100, normalButtonSize}, (SDL_FRect){200, 200, 200, 100}, toggleWireframe);
 
-	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){10, SCREEN_H - 100 - 20, 50, 50}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
-	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){70, SCREEN_H - 100 - 20, 50, 50}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
-	pointMinusY = createButton(BUTTON_HOLD, (SDL_FRect){10, SCREEN_H - 150 - 25, 50, 50}, (SDL_FRect){100, 200, 100, 100}, minusPointY);
-	pointPlusY  = createButton(BUTTON_HOLD, (SDL_FRect){70, SCREEN_H - 150 - 25, 50, 50}, (SDL_FRect){0,   200, 100, 100}, plusPointY);
-	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){10, SCREEN_H - 200 - 30, 50, 50}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
-	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){70, SCREEN_H - 200 - 30, 50, 50}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
+	prevPoint = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 0, SCREEN_H - (normalButtonSize + buttonPadding) * 1, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 0, 100, 100}, selectPrevPoint);
+	nextPoint = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 1, normalButtonSize, normalButtonSize}, (SDL_FRect){0, 0, 100, 100}, selectNextPoint);
 
-	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 10, 100, 50}, (SDL_FRect){200, 0  , 200, 100}, objLoad);
-	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){10, 70, 100, 50}, (SDL_FRect){200, 100, 200, 100}, objSave);
+	pointMinusX = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 0, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 100, 100, 100}, minusPointX);
+	pointPlusX  = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){0,   100, 100, 100}, plusPointX);
+	pointMinusY = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 1, SCREEN_H - (normalButtonSize + buttonPadding) * 2, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 200, 100, 100}, minusPointY);
+	pointPlusY  = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 1, SCREEN_H - (normalButtonSize + buttonPadding) * 4, normalButtonSize, normalButtonSize}, (SDL_FRect){0,   200, 100, 100}, plusPointY);
+	pointMinusZ = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 0, SCREEN_H - (normalButtonSize + buttonPadding) * 2, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 300, 100, 100}, minusPointZ);
+	pointPlusZ  = createButton(BUTTON_HOLD, (SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 4, normalButtonSize, normalButtonSize}, (SDL_FRect){0,   300, 100, 100}, plusPointZ);
+    toggleColorMenu = createButton(BUTTON_CLICK,(SDL_FRect){buttonPadding + (normalButtonSize + buttonPadding) * 1, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){  0, 400, 100, 100}, colorMenuToggle);
 
-	toggleColorMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 200 - 40, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){  0, 400, 100, 100}, colorMenuToggle);
-	toggleScaleMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 150 - 30, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){100, 400, 100, 100}, scaleMenuToggle);
-	toggleTranslateMenu = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 50  - 10, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){200, 400, 100, 100}, translateMenuToggle);
-	toggleRotateMenu    = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - 100 - 20, SCREEN_H - 50 - 10, 50, 50}, (SDL_FRect){300, 400, 100, 100}, rotateMenuToggle);
+	loadObjButton = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding, buttonPadding + (normalButtonSize + buttonPadding) * 0, 100, normalButtonSize}, (SDL_FRect){200, 0  , 200, 100}, objLoad);
+	saveObjButton = createButton(BUTTON_CLICK, (SDL_FRect){buttonPadding, buttonPadding + (normalButtonSize + buttonPadding) * 1, 100, normalButtonSize}, (SDL_FRect){200, 100, 200, 100}, objSave);
+
+	toggleModelMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - (normalButtonSize + buttonPadding) * 1, SCREEN_H - normalButtonSize - buttonPadding, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 400, 100, 100}, modelMenuToggle);
+	togglePointMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - (normalButtonSize + buttonPadding) * 2, SCREEN_H - normalButtonSize - buttonPadding, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 400, 100, 100}, pointMenuToggle);
+
+	toggleScaleMenu     = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - normalButtonSize  - buttonPadding, SCREEN_H - (normalButtonSize + buttonPadding) * 2, normalButtonSize, normalButtonSize}, (SDL_FRect){100, 400, 100, 100}, scaleMenuToggle);
+	toggleRotateMenu    = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - normalButtonSize  - buttonPadding, SCREEN_H - (normalButtonSize + buttonPadding) * 3, normalButtonSize, normalButtonSize}, (SDL_FRect){300, 400, 100, 100}, rotateMenuToggle);
+	toggleTranslateMenu = createButton(BUTTON_CLICK, (SDL_FRect){SCREEN_W - normalButtonSize  - buttonPadding, SCREEN_H - (normalButtonSize + buttonPadding) * 4, normalButtonSize, normalButtonSize}, (SDL_FRect){200, 400, 100, 100}, translateMenuToggle);
 
 	colorMenu = createMenu(0, 3);
 	colorMenu.isVisible = 0;
@@ -65,21 +72,40 @@ void init()
 
 	scaleMenu = createMenu(0, 3);
 	scaleMenu.isVisible = 0;
-	scaleMenu.sliderList[0] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 50 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
-	scaleMenu.sliderList[1] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 50 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
-	scaleMenu.sliderList[2] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - 200 - 20, SCREEN_H - 50 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
-
-	translateMenu = createMenu(0, 3);
-	translateMenu.isVisible = 0;
-	translateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 50 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
-	translateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 50 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
-	translateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 50 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
+	scaleMenu.sliderList[0] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 2 + buttonPadding * 0, sliderWidth, 10}, (SDL_Color){255,   0,   0, 255});
+	scaleMenu.sliderList[1] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 2 + buttonPadding * 2, sliderWidth, 10}, (SDL_Color){  0, 255,   0, 255});
+	scaleMenu.sliderList[2] = createSlider(0.1, 2.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 2 + buttonPadding * 4, sliderWidth, 10}, (SDL_Color){  0,   0, 255, 255});
 
 	rotateMenu = createMenu(0, 3);
 	rotateMenu.isVisible = 0;
-	rotateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 120 - 100, 100, 10}, (SDL_Color){255,   0,   0, 255});
-	rotateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 120 - 80 , 100, 10}, (SDL_Color){  0, 255,   0, 255});
-	rotateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - 100 - 10, SCREEN_H - 120 - 60 , 100, 10}, (SDL_Color){  0,   0, 255, 255});
+	rotateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 3 + buttonPadding * 0, 100, 10}, (SDL_Color){255,   0,   0, 255});
+	rotateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 3 + buttonPadding * 2, 100, 10}, (SDL_Color){  0, 255,   0, 255});
+	rotateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 3 + buttonPadding * 4, 100, 10}, (SDL_Color){  0,   0, 255, 255});
+
+	translateMenu = createMenu(0, 3);
+	translateMenu.isVisible = 0;
+	translateMenu.sliderList[0] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 4 + buttonPadding * 0, 100, 10}, (SDL_Color){255,   0,   0, 255});
+	translateMenu.sliderList[1] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 4 + buttonPadding * 2, 100, 10}, (SDL_Color){  0, 255,   0, 255});
+	translateMenu.sliderList[2] = createSlider(-1.0, 1.0, (SDL_FRect){SCREEN_W - sliderWidth - normalButtonSize - buttonPadding * 2, SCREEN_H - (normalButtonSize + buttonPadding) * 4 + buttonPadding * 4, 100, 10}, (SDL_Color){  0,   0, 255, 255});
+
+	modelTransformMenu = createMenu(3, 0);
+	modelTransformMenu.isVisible = 0;
+	modelTransformMenu.buttonList[0] = &toggleScaleMenu;
+	modelTransformMenu.buttonList[1] = &toggleRotateMenu;
+	modelTransformMenu.buttonList[2] = &toggleTranslateMenu;
+
+	pointTransformMenu = createMenu(9, 0);
+	pointTransformMenu.isVisible = 0;
+	pointTransformMenu.buttonList[0] = &toggleColorMenu;
+	pointTransformMenu.buttonList[1] = &pointMinusX;
+        pointTransformMenu.buttonList[2] = &pointPlusX;
+	pointTransformMenu.buttonList[3] = &pointMinusY;
+	pointTransformMenu.buttonList[4] = &pointPlusY;
+	pointTransformMenu.buttonList[5] = &pointMinusZ;
+	pointTransformMenu.buttonList[6] = &pointPlusZ;
+	pointTransformMenu.buttonList[7] = &nextPoint;
+	pointTransformMenu.buttonList[8] = &prevPoint;
+
 
 	if (!loadObj())
 	{
@@ -117,6 +143,7 @@ void init()
 	colorMenu.sliderList[1].curVal = selectedPoint->color[1];
 	colorMenu.sliderList[2].curVal = selectedPoint->color[2];
 
+	//loadObjFromObjFile(&levelBounds, "assets/low-poly-sphere.obj");
 
 	initEmptyObject(&levelFloor);
 	addPointToObject(&levelFloor, (point){{-1.0, 0.5, -1.0, 1}, {255, 0  , 0  , 255}});
@@ -142,6 +169,8 @@ void quit()
 	freeMenu(&scaleMenu);
 	freeMenu(&rotateMenu);
 	freeMenu(&translateMenu);
+	freeMenu(&modelTransformMenu);
+	freeMenu(&pointTransformMenu);
 	SDL_DestroyCursor(normalCursor);
 	SDL_DestroyCursor(pointerCursor);
 	SDL_DestroyTexture(frameBufferTexture);

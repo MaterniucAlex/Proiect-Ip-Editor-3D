@@ -3,6 +3,7 @@
 #include "extra/matrixMath.h"
 #include "object/CustomObject.h"
 #include <SDL3/SDL_mouse.h>
+#include <math.h>
 #ifndef VARS
 #define VARS
 #include <SDL3/SDL.h>
@@ -22,15 +23,15 @@ Uint32 *pixels;
 SDL_Texture *frameBufferTexture;
 
 vec4 cameraPosition = {0.f, 0.f, -1.f, 1.0f};
-vec4 cameraTarget   = {0.f, 0.f, 0.f, 1.0f};
-vec4 cameraUp 	    = {0.f, 1.f, 0.f, 1.0f};
+vec4 cameraTarget   = {0.f, 0.f,  0.f, 1.0f};
+vec4 cameraUp 	    = {0.f, 1.f,  0.f, 1.0f};
 
 mat4 objScalingMat;
 mat4 objTranslateMat;
 mat4 objRotateMat;
 
-float cameraXangle = 0.5;
-float cameraYangle = -0.5;
+float cameraXangle = (M_PI / 180) * -135;
+float cameraYangle = -0.75;
 float cameraZoom = 1;
 
 SDL_Texture *buttonTexture;
@@ -49,6 +50,9 @@ bool isRunning = true;
 
 object exObj;
 object levelFloor;
+//object levelBounds;
+
+int buttonsUpdated = 0;
 
 #include "extra/popupMenu.h"
 
@@ -70,6 +74,9 @@ Button scaleObjButton;
 Button loadObjButton;
 Button saveObjButton;
 
+Button toggleModelMenu;
+Button togglePointMenu;
+
 Button toggleColorMenu;
 Button toggleScaleMenu;
 Button toggleTranslateMenu;
@@ -81,6 +88,9 @@ PopupMenu colorMenu;
 PopupMenu scaleMenu;
 PopupMenu rotateMenu;
 PopupMenu translateMenu;
+
+PopupMenu modelTransformMenu;
+PopupMenu pointTransformMenu;
 
 int pointX;
 int pointY;

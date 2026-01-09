@@ -8,7 +8,6 @@
 #include <SDL3/SDL_surface.h>
 #include <SDL3/SDL_timer.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include <stdio.h>
 
 void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat);
 void drawSelectedPoint(mat4 transformMat);
@@ -23,7 +22,11 @@ void render()
 	SDL_RenderClear(renderer);
 
 	mat4 transformMat;
-	initScalingMatrix(transformMat, 1, 1, 1);
+
+	//initScalingMatrixS(transformMat, 10);
+	//renderObject(&levelBounds, renderer, transformMat);
+
+	initScalingMatrixS(transformMat, 1);
 	renderObject(&levelFloor, renderer, transformMat);
 
 	copyToMat(transformMat, objScalingMat);
@@ -47,23 +50,17 @@ void render()
 
 	renderCustomScreen();
 
+	renderMenu(&modelTransformMenu);
+	renderMenu(&pointTransformMenu);
+
 	SDL_SetRenderDrawColor(renderer, 255, 50, 50, 125);
 
 	renderButton(&wireframeButton);
-	renderButton(&nextPoint);
-	renderButton(&prevPoint);
-	renderButton(&pointPlusX);
-	renderButton(&pointMinusX);
-	renderButton(&pointPlusY);
-	renderButton(&pointMinusY);
-	renderButton(&pointPlusZ);
-	renderButton(&pointMinusZ);
 	renderButton(&loadObjButton);
 	renderButton(&saveObjButton);
-	renderButton(&toggleColorMenu);
-	renderButton(&toggleScaleMenu);
-	renderButton(&toggleTranslateMenu);
-	renderButton(&toggleRotateMenu);
+
+	renderButton(&toggleModelMenu);
+	renderButton(&togglePointMenu);
 
 	////
 	SDL_RenderPresent(renderer);
@@ -72,6 +69,19 @@ void render()
 	int waitTime =  (1000 / FPS) - (renderEnd - renderStart);
 	SDL_Delay(waitTime > 0 ? waitTime : 0);
 }
+
+/*
+int isPointInbounds(point *p)
+{
+	float x = p->coords[0];
+	float y = p->coords[1];
+
+	if (x < 0 || x > SCREEN_W * 2) return 0;
+	if (y < 0 || y > SCREEN_H * 2) return 0;
+
+	return 1;
+}
+*/
 
 void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 {
@@ -118,8 +128,9 @@ void renderObject(object *object, SDL_Renderer *renderer, mat4 transformMat)
 
 		multMatByVec(transformMat, p3.coords);
 		applyPerspectiveVector(p3.coords);
-
 		turnScreenCoordToVecCoord(p3.coords, SCREEN_W, SCREEN_H);
+
+		//if (!isPointInbounds(&p1) || !isPointInbounds(&p2) || !isPointInbounds(&p3)) continue;
 
 		if (!wireframeRender)
 			draw_filled_triangle(p1, p2, p3);
